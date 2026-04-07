@@ -338,7 +338,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test error message display
   - Test successful login flow
 
-- [ ] 27. Implement password reset pages
+- [x] 27. Implement password reset pages
   - Create /app/(auth)/reset-password/page.tsx for reset request
   - Create /app/(auth)/reset-password/[token]/page.tsx for reset form
   - Build password reset request form
@@ -347,14 +347,14 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add success/error message display
   - _Requirements: 1.5, 1.6_
 
-- [ ]* 27.1 Write unit tests for password reset forms
+- [x]* 27.1 Write unit tests for password reset forms
   - Test reset request form submission
   - Test password validation
   - Test token verification
 
 ## Phase 10: Frontend - Practice Set UI
 
-- [ ] 28. Implement practice set selection page
+- [x] 28. Implement practice set selection page
   - Create /app/(protected)/practice/page.tsx
   - Display four JAIIB paper options (IE & IFS, PPB, AFB, RBWM)
   - Implement paper selection with visual cards
@@ -362,11 +362,11 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Implement "Start Practice" button
   - _Requirements: 3.1_
 
-- [ ]* 28.1 Write unit tests for practice set selection
+- [x]* 28.1 Write unit tests for practice set selection
   - Test paper selection
   - Test difficulty level selection
 
-- [ ] 29. Implement practice session UI with timer
+- [x] 29. Implement practice session UI with timer
   - Create /app/(protected)/practice/[paper]/[practiceSetId]/page.tsx
   - Build PracticeSetUI component for question display
   - Implement Timer component with countdown (10 minutes)
@@ -377,7 +377,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add submit button and auto-submit on timeout
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 13.4_
 
-- [ ]* 29.1 Write unit tests for practice session UI
+- [x]* 29.1 Write unit tests for practice session UI
   - Test timer countdown and color changes
   - Test question navigation
   - Test answer selection
