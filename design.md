@@ -419,6 +419,43 @@ Lambda Functions:
 
 ---
 
+#### POST /auth/register
+
+**Request:**
+```json
+{
+  "full_name": "John Officer",
+  "email": "officer@bank.com",
+  "tenant_id": "tenant_001",
+  "password": "SecurePass123",
+  "confirm_password": "SecurePass123"
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "success": true,
+  "message": "Registration successful. Please log in with your credentials.",
+  "user": {
+    "user_id": "user_123",
+    "email": "officer@bank.com",
+    "full_name": "John Officer",
+    "tenant_id": "tenant_001"
+  }
+}
+```
+
+**Error (400 Bad Request):**
+```json
+{
+  "success": false,
+  "error": "Email already exists" | "Password does not meet requirements" | "Passwords do not match"
+}
+```
+
+---
+
 #### POST /auth/logout
 
 **Request:**
@@ -718,15 +755,18 @@ Lambda Functions:
 ### AuthenticationHandler
 
 **Responsibilities:**
+- User registration with email, password, full name, and tenant ID
 - Credential verification against DynamoDB
 - JWT token generation and validation
 - Password hashing with bcrypt (salt rounds: 10)
 - Session management with 30-minute timeout
 - Password reset token generation and validation
+- Email uniqueness validation
 
 **Key Functions:**
 
 ```typescript
+async function handleRegister(fullName: string, email: string, tenantId: string, password: string): Promise<RegistrationResponse>
 async function handleLogin(email: string, password: string, tenantId: string): Promise<LoginResponse>
 async function handleLogout(sessionToken: string): Promise<void>
 async function handlePasswordReset(email: string, tenantId: string): Promise<void>
@@ -735,6 +775,7 @@ async function validateSession(token: string): Promise<SessionData>
 ```
 
 **Performance Targets:**
+- Registration response: < 500ms
 - Login response: < 500ms
 - Token validation: < 100ms
 - Password reset: < 1s
@@ -939,6 +980,16 @@ async function archiveLogs(olderThan: Date): Promise<void>
 - Error message display
 - Loading state
 - Redirect on success
+
+**RegistrationForm.tsx**
+- Full name, email, organization ID (tenant ID), password, and confirm password inputs
+- Real-time form validation with error display
+- Password strength validation (8+ chars, uppercase, lowercase, numeric)
+- Password matching validation
+- Loading state with spinner during submission
+- Redirect to login on successful registration
+- Full accessibility support (ARIA labels, semantic HTML)
+- Email uniqueness validation
 
 **PracticeSetUI.tsx**
 - Question display with options

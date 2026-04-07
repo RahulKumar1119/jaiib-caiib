@@ -100,6 +100,25 @@ Each paper consists of 100 questions with the following distribution:
 
 ---
 
+### Requirement 1.1: User Registration
+
+**User Story:** As a new Bank_Officer, I want to create an account with my email, password, full name, and organization ID, so that I can access the exam preparation portal.
+
+#### Acceptance Criteria
+
+1. WHEN a Bank_Officer navigates to the registration page, THE Registration_Form SHALL display input fields for full name, email, organization ID (tenant ID), password, and confirm password
+2. WHEN a Bank_Officer enters an email address, THE Registration_Form SHALL validate the email format and display an error if invalid
+3. WHEN a Bank_Officer enters a password, THE Registration_Form SHALL validate password strength (minimum 8 characters, uppercase, lowercase, numeric) and display real-time feedback
+4. WHEN a Bank_Officer enters a confirm password, THE Registration_Form SHALL validate that it matches the password field and display an error if they don't match
+5. WHEN a Bank_Officer submits the registration form with valid data, THE Authentication_Service SHALL create a new user account in DynamoDB with the provided information
+6. WHEN a Bank_Officer submits the registration form with valid data, THE Authentication_Service SHALL hash the password using bcrypt (salt rounds: 10) before storage
+7. WHEN a Bank_Officer successfully registers, THE system SHALL redirect to the login page with a success message
+8. WHEN a Bank_Officer attempts to register with an email that already exists, THE Authentication_Service SHALL reject the registration and display an error message
+9. WHEN a Bank_Officer submits the registration form, THE Registration_Form SHALL display a loading state and disable the submit button during submission
+10. THE Registration_Form SHALL include proper accessibility features (ARIA labels, semantic HTML) for screen reader compatibility
+
+---
+
 ### Requirement 2: Multi-tenant User Isolation
 
 **User Story:** As a system administrator, I want user data to be isolated by banking institution, so that data from different organizations remains completely separate and secure.

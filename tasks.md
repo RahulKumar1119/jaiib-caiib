@@ -338,6 +338,20 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test error message display
   - Test successful login flow
 
+- [x] 26.2 Implement registration page
+  - Create /app/(auth)/register/page.tsx
+  - Build RegistrationForm component with email, password, confirm password, tenant ID, and full name inputs
+  - Implement form validation (email format, password requirements, password matching)
+  - Add error message display
+  - Implement loading state during submission
+  - Redirect to login on successful registration
+  - _Requirements: 1.1, 1.2_
+
+- [x] 26.2.1 Write unit tests for registration form
+  - Test form validation
+  - Test error message display
+  - Test successful registration flow
+
 - [x] 27. Implement password reset pages
   - Create /app/(auth)/reset-password/page.tsx for reset request
   - Create /app/(auth)/reset-password/[token]/page.tsx for reset form
@@ -383,7 +397,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test answer selection
   - Test auto-submit on timeout
 
-- [ ] 30. Implement score display and explanation panel
+- [x] 30. Implement score display and explanation panel
   - Create /app/(protected)/practice/results/[resultId]/page.tsx
   - Build ScoreDisplay component showing score percentage
   - Display correct/incorrect count
@@ -394,7 +408,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add error fallback message for Bedrock failures
   - _Requirements: 5.9, 6.1, 6.2, 6.3, 6.4_
 
-- [ ]* 30.1 Write unit tests for score display and explanations
+- [x]* 30.1 Write unit tests for score display and explanations
   - Test score calculation display
   - Test answer review rendering
   - Test explanation loading and display
