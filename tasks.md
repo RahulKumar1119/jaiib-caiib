@@ -340,7 +340,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 - [x] 26.2 Implement registration page
   - Create /app/(auth)/register/page.tsx
-  - Build RegistrationForm component with email, password, confirm password, tenant ID, and full name inputs
+  - Build RegistrationForm component with email, password, confirm password, and full name inputs
   - Implement form validation (email format, password requirements, password matching)
   - Add error message display
   - Implement loading state during submission

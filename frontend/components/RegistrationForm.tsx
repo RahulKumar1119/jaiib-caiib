@@ -11,7 +11,6 @@ interface FormErrors {
   email?: string
   password?: string
   confirmPassword?: string
-  tenantId?: string
   submit?: string
 }
 
@@ -23,7 +22,6 @@ export default function RegistrationForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [tenantId, setTenantId] = useState('')
   const [errors, setErrors] = useState<FormErrors>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
 
@@ -32,7 +30,7 @@ export default function RegistrationForm() {
     if (error) {
       clearError()
     }
-  }, [fullName, email, password, confirmPassword, tenantId, error, clearError])
+  }, [fullName, email, password, confirmPassword, error, clearError])
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
@@ -41,10 +39,6 @@ export default function RegistrationForm() {
       newErrors.fullName = 'Full name is required'
     } else if (fullName.trim().length < 2) {
       newErrors.fullName = 'Full name must be at least 2 characters'
-    }
-
-    if (!tenantId.trim()) {
-      newErrors.tenantId = 'Organization ID is required'
     }
 
     if (!email.trim()) {
@@ -83,7 +77,6 @@ export default function RegistrationForm() {
     // Mark all fields as touched to show validation errors
     setTouched({
       fullName: true,
-      tenantId: true,
       email: true,
       password: true,
       confirmPassword: true,
@@ -94,7 +87,7 @@ export default function RegistrationForm() {
     }
 
     try {
-      await register(email, password, tenantId, fullName)
+      await register(email, password, fullName)
       // Redirect to login with success message
       router.push('/login?registered=true')
     } catch (err: any) {
@@ -144,38 +137,6 @@ export default function RegistrationForm() {
         {errors.fullName && touched.fullName && (
           <p id="fullName-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
             {errors.fullName}
-          </p>
-        )}
-      </div>
-
-      {/* Tenant ID Field */}
-      <div>
-        <label
-          htmlFor="tenantId"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-        >
-          Organization ID
-        </label>
-        <input
-          id="tenantId"
-          type="text"
-          value={tenantId}
-          onChange={(e) => setTenantId(e.target.value)}
-          onBlur={() => handleBlur('tenantId')}
-          placeholder="Enter your organization ID"
-          disabled={isLoading}
-          aria-label="Organization ID"
-          aria-invalid={!!errors.tenantId}
-          aria-describedby={errors.tenantId ? 'tenantId-error' : undefined}
-          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
-            errors.tenantId && touched.tenantId
-              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
-          } focus:outline-none focus:ring-2`}
-        />
-        {errors.tenantId && touched.tenantId && (
-          <p id="tenantId-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
-            {errors.tenantId}
           </p>
         )}
       </div>

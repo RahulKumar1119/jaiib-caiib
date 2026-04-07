@@ -387,8 +387,7 @@ Lambda Functions:
 ```json
 {
   "email": "officer@bank.com",
-  "password": "SecurePass123",
-  "tenant_id": "tenant_001"
+  "password": "SecurePass123"
 }
 ```
 
@@ -400,8 +399,7 @@ Lambda Functions:
     "user_id": "user_123",
     "email": "officer@bank.com",
     "full_name": "John Officer",
-    "role": "officer",
-    "tenant_id": "tenant_001"
+    "role": "officer"
   },
   "session_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "expires_in": 1800,
@@ -426,7 +424,6 @@ Lambda Functions:
 {
   "full_name": "John Officer",
   "email": "officer@bank.com",
-  "tenant_id": "tenant_001",
   "password": "SecurePass123",
   "confirm_password": "SecurePass123"
 }
@@ -440,8 +437,7 @@ Lambda Functions:
   "user": {
     "user_id": "user_123",
     "email": "officer@bank.com",
-    "full_name": "John Officer",
-    "tenant_id": "tenant_001"
+    "full_name": "John Officer"
   }
 }
 ```
@@ -480,8 +476,7 @@ Lambda Functions:
 **Request:**
 ```json
 {
-  "email": "officer@bank.com",
-  "tenant_id": "tenant_001"
+  "email": "officer@bank.com"
 }
 ```
 
@@ -982,7 +977,7 @@ async function archiveLogs(olderThan: Date): Promise<void>
 - Redirect on success
 
 **RegistrationForm.tsx**
-- Full name, email, organization ID (tenant ID), password, and confirm password inputs
+- Full name, email, password, and confirm password inputs
 - Real-time form validation with error display
 - Password strength validation (8+ chars, uppercase, lowercase, numeric)
 - Password matching validation

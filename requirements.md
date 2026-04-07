@@ -102,11 +102,11 @@ Each paper consists of 100 questions with the following distribution:
 
 ### Requirement 1.1: User Registration
 
-**User Story:** As a new Bank_Officer, I want to create an account with my email, password, full name, and organization ID, so that I can access the exam preparation portal.
+**User Story:** As a new Bank_Officer, I want to create an account with my email, password, and full name, so that I can access the exam preparation portal.
 
 #### Acceptance Criteria
 
-1. WHEN a Bank_Officer navigates to the registration page, THE Registration_Form SHALL display input fields for full name, email, organization ID (tenant ID), password, and confirm password
+1. WHEN a Bank_Officer navigates to the registration page, THE Registration_Form SHALL display input fields for full name, email, password, and confirm password
 2. WHEN a Bank_Officer enters an email address, THE Registration_Form SHALL validate the email format and display an error if invalid
 3. WHEN a Bank_Officer enters a password, THE Registration_Form SHALL validate password strength (minimum 8 characters, uppercase, lowercase, numeric) and display real-time feedback
 4. WHEN a Bank_Officer enters a confirm password, THE Registration_Form SHALL validate that it matches the password field and display an error if they don't match

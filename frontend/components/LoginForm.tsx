@@ -9,7 +9,6 @@ import { validateEmail, validatePassword } from '@/lib/utils/validation'
 interface FormErrors {
   email?: string
   password?: string
-  tenantId?: string
   submit?: string
 }
 
@@ -19,7 +18,6 @@ export default function LoginForm() {
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [tenantId, setTenantId] = useState('')
   const [errors, setErrors] = useState<FormErrors>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
 
@@ -28,14 +26,10 @@ export default function LoginForm() {
     if (error) {
       clearError()
     }
-  }, [email, password, tenantId, error, clearError])
+  }, [email, password, error, clearError])
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
-
-    if (!tenantId.trim()) {
-      newErrors.tenantId = 'Organization ID is required'
-    }
 
     if (!email.trim()) {
       newErrors.email = 'Email is required'
@@ -66,7 +60,6 @@ export default function LoginForm() {
     
     // Mark all fields as touched to show validation errors
     setTouched({
-      tenantId: true,
       email: true,
       password: true,
     })
@@ -76,7 +69,7 @@ export default function LoginForm() {
     }
 
     try {
-      await login(email, password, tenantId)
+      await login(email, password)
       router.push('/dashboard')
     } catch (err: any) {
       setErrors({
@@ -96,38 +89,6 @@ export default function LoginForm() {
           {errors.submit || error}
         </div>
       )}
-
-      {/* Tenant ID Field */}
-      <div>
-        <label
-          htmlFor="tenantId"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-        >
-          Organization ID
-        </label>
-        <input
-          id="tenantId"
-          type="text"
-          value={tenantId}
-          onChange={(e) => setTenantId(e.target.value)}
-          onBlur={() => handleBlur('tenantId')}
-          placeholder="Enter your organization ID"
-          disabled={isLoading}
-          aria-label="Organization ID"
-          aria-invalid={!!errors.tenantId}
-          aria-describedby={errors.tenantId ? 'tenantId-error' : undefined}
-          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
-            errors.tenantId && touched.tenantId
-              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
-          } focus:outline-none focus:ring-2`}
-        />
-        {errors.tenantId && touched.tenantId && (
-          <p id="tenantId-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
-            {errors.tenantId}
-          </p>
-        )}
-      </div>
 
       {/* Email Field */}
       <div>

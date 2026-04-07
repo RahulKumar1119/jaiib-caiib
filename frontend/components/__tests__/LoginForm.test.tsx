@@ -35,7 +35,6 @@ describe('LoginForm', () => {
     it('should render all form fields', () => {
       render(<LoginForm />)
 
-      expect(screen.getByLabelText(/organization id/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/email address/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument()
@@ -61,23 +60,8 @@ describe('LoginForm', () => {
   })
 
   describe('Form Validation', () => {
-    it('should show error when tenant ID is empty', async () => {
-      render(<LoginForm />)
-
-      const submitButton = screen.getByRole('button', { name: /login/i })
-      fireEvent.click(submitButton)
-
-      await waitFor(() => {
-        expect(screen.getByText(/organization id is required/i)).toBeInTheDocument()
-      })
-    })
-
     it('should show error when email is empty', async () => {
       render(<LoginForm />)
-
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
-      fireEvent.blur(tenantIdInput)
 
       const submitButton = screen.getByRole('button', { name: /login/i })
       fireEvent.click(submitButton)
@@ -98,11 +82,8 @@ describe('LoginForm', () => {
 
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
-      fireEvent.blur(tenantIdInput)
       fireEvent.change(emailInput, { target: { value: 'invalid-email' } })
       fireEvent.blur(emailInput)
 
@@ -116,11 +97,8 @@ describe('LoginForm', () => {
     it('should show error when password is empty', async () => {
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
-      fireEvent.blur(tenantIdInput)
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.blur(emailInput)
 
@@ -135,12 +113,9 @@ describe('LoginForm', () => {
     it('should show error for weak password', async () => {
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
-      fireEvent.blur(tenantIdInput)
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.blur(emailInput)
       fireEvent.change(passwordInput, { target: { value: 'weak' } })
@@ -157,12 +132,9 @@ describe('LoginForm', () => {
     it('should validate password requirements', async () => {
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
-      fireEvent.blur(tenantIdInput)
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.blur(emailInput)
       fireEvent.change(passwordInput, { target: { value: 'lowercase123' } })
@@ -183,11 +155,9 @@ describe('LoginForm', () => {
 
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.change(passwordInput, { target: { value: 'ValidPass123' } })
 
@@ -195,7 +165,7 @@ describe('LoginForm', () => {
       fireEvent.click(submitButton)
 
       await waitFor(() => {
-        expect(mockLogin).toHaveBeenCalledWith('test@example.com', 'ValidPass123', 'tenant_001')
+        expect(mockLogin).toHaveBeenCalledWith('test@example.com', 'ValidPass123')
       })
     })
 
@@ -204,11 +174,9 @@ describe('LoginForm', () => {
 
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.change(passwordInput, { target: { value: 'ValidPass123' } })
 
@@ -227,11 +195,9 @@ describe('LoginForm', () => {
 
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.change(passwordInput, { target: { value: 'ValidPass123' } })
 
@@ -248,11 +214,9 @@ describe('LoginForm', () => {
 
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
-      fireEvent.change(tenantIdInput, { target: { value: 'tenant_001' } })
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.change(passwordInput, { target: { value: 'ValidPass123' } })
 
@@ -276,11 +240,9 @@ describe('LoginForm', () => {
 
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i) as HTMLInputElement
       const emailInput = screen.getByLabelText(/email address/i) as HTMLInputElement
       const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement
 
-      expect(tenantIdInput.disabled).toBe(true)
       expect(emailInput.disabled).toBe(true)
       expect(passwordInput.disabled).toBe(true)
     })
@@ -335,7 +297,6 @@ describe('LoginForm', () => {
     it('should have proper ARIA labels', () => {
       render(<LoginForm />)
 
-      expect(screen.getByLabelText(/organization id/i)).toHaveAttribute('aria-label')
       expect(screen.getByLabelText(/email address/i)).toHaveAttribute('aria-label')
       expect(screen.getByLabelText(/password/i)).toHaveAttribute('aria-label')
     })
@@ -357,12 +318,10 @@ describe('LoginForm', () => {
     it('should have proper role for error messages', async () => {
       render(<LoginForm />)
 
-      const tenantIdInput = screen.getByLabelText(/organization id/i)
       const emailInput = screen.getByLabelText(/email address/i)
       const passwordInput = screen.getByLabelText(/password/i)
 
       // Trigger blur on all fields to mark them as touched
-      fireEvent.blur(tenantIdInput)
       fireEvent.blur(emailInput)
       fireEvent.blur(passwordInput)
 
