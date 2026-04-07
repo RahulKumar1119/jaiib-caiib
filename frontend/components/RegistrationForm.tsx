@@ -1,0 +1,333 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/auth-context'
+import { validateEmail, validatePassword } from '@/lib/utils/validation'
+
+interface FormErrors {
+  fullName?: string
+  email?: string
+  password?: string
+  confirmPassword?: string
+  tenantId?: string
+  submit?: string
+}
+
+export default function RegistrationForm() {
+  const router = useRouter()
+  const { register, isLoading, error, clearError } = useAuth()
+  
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [tenantId, setTenantId] = useState('')
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+
+  // Clear errors when user starts typing
+  useEffect(() => {
+    if (error) {
+      clearError()
+    }
+  }, [fullName, email, password, confirmPassword, tenantId, error, clearError])
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {}
+
+    if (!fullName.trim()) {
+      newErrors.fullName = 'Full name is required'
+    } else if (fullName.trim().length < 2) {
+      newErrors.fullName = 'Full name must be at least 2 characters'
+    }
+
+    if (!tenantId.trim()) {
+      newErrors.tenantId = 'Organization ID is required'
+    }
+
+    if (!email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!validateEmail(email)) {
+      newErrors.email = 'Please enter a valid email address'
+    }
+
+    if (!password) {
+      newErrors.password = 'Password is required'
+    } else {
+      const passwordValidation = validatePassword(password)
+      if (!passwordValidation.isValid) {
+        newErrors.password = passwordValidation.errors[0]
+      }
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password'
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setErrors({})
+    
+    // Mark all fields as touched to show validation errors
+    setTouched({
+      fullName: true,
+      tenantId: true,
+      email: true,
+      password: true,
+      confirmPassword: true,
+    })
+
+    if (!validateForm()) {
+      return
+    }
+
+    try {
+      await register(email, password, tenantId, fullName)
+      // Redirect to login with success message
+      router.push('/login?registered=true')
+    } catch (err: any) {
+      setErrors({
+        submit: err.message || 'Registration failed. Please try again.',
+      })
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Error Message */}
+      {(errors.submit || error) && (
+        <div
+          className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-200 text-sm"
+          role="alert"
+        >
+          {errors.submit || error}
+        </div>
+      )}
+
+      {/* Full Name Field */}
+      <div>
+        <label
+          htmlFor="fullName"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Full Name
+        </label>
+        <input
+          id="fullName"
+          type="text"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          onBlur={() => handleBlur('fullName')}
+          placeholder="John Doe"
+          disabled={isLoading}
+          aria-label="Full name"
+          aria-invalid={!!errors.fullName}
+          aria-describedby={errors.fullName ? 'fullName-error' : undefined}
+          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
+            errors.fullName && touched.fullName
+              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
+          } focus:outline-none focus:ring-2`}
+        />
+        {errors.fullName && touched.fullName && (
+          <p id="fullName-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+            {errors.fullName}
+          </p>
+        )}
+      </div>
+
+      {/* Tenant ID Field */}
+      <div>
+        <label
+          htmlFor="tenantId"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Organization ID
+        </label>
+        <input
+          id="tenantId"
+          type="text"
+          value={tenantId}
+          onChange={(e) => setTenantId(e.target.value)}
+          onBlur={() => handleBlur('tenantId')}
+          placeholder="Enter your organization ID"
+          disabled={isLoading}
+          aria-label="Organization ID"
+          aria-invalid={!!errors.tenantId}
+          aria-describedby={errors.tenantId ? 'tenantId-error' : undefined}
+          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
+            errors.tenantId && touched.tenantId
+              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
+          } focus:outline-none focus:ring-2`}
+        />
+        {errors.tenantId && touched.tenantId && (
+          <p id="tenantId-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+            {errors.tenantId}
+          </p>
+        )}
+      </div>
+
+      {/* Email Field */}
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Email Address
+        </label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onBlur={() => handleBlur('email')}
+          placeholder="your@email.com"
+          disabled={isLoading}
+          autoComplete="email"
+          aria-label="Email address"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'email-error' : undefined}
+          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
+            errors.email && touched.email
+              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
+          } focus:outline-none focus:ring-2`}
+        />
+        {errors.email && touched.email && (
+          <p id="email-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+            {errors.email}
+          </p>
+        )}
+      </div>
+
+      {/* Password Field */}
+      <div>
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Password
+        </label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onBlur={() => handleBlur('password')}
+          placeholder="••••••••"
+          disabled={isLoading}
+          autoComplete="new-password"
+          aria-label="Password"
+          aria-invalid={!!errors.password}
+          aria-describedby={errors.password ? 'password-error' : undefined}
+          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
+            errors.password && touched.password
+              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
+          } focus:outline-none focus:ring-2`}
+        />
+        {errors.password && touched.password && (
+          <p id="password-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+            {errors.password}
+          </p>
+        )}
+      </div>
+
+      {/* Confirm Password Field */}
+      <div>
+        <label
+          htmlFor="confirmPassword"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Confirm Password
+        </label>
+        <input
+          id="confirmPassword"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          onBlur={() => handleBlur('confirmPassword')}
+          placeholder="••••••••"
+          disabled={isLoading}
+          autoComplete="new-password"
+          aria-label="Confirm password"
+          aria-invalid={!!errors.confirmPassword}
+          aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
+          className={`w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors ${
+            errors.confirmPassword && touched.confirmPassword
+              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:ring-primary-500'
+          } focus:outline-none focus:ring-2`}
+        />
+        {errors.confirmPassword && touched.confirmPassword && (
+          <p id="confirmPassword-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+            {errors.confirmPassword}
+          </p>
+        )}
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        disabled={isLoading}
+        aria-busy={isLoading}
+        className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+      >
+        {isLoading ? (
+          <>
+            <svg
+              className="animate-spin h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            <span>Creating account...</span>
+          </>
+        ) : (
+          'Create Account'
+        )}
+      </button>
+
+      {/* Footer Links */}
+      <div className="text-center text-sm">
+        <p className="text-gray-600 dark:text-gray-400">
+          Already have an account?{' '}
+          <Link
+            href="/login"
+            className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-semibold transition-colors"
+          >
+            Sign in here
+          </Link>
+        </p>
+      </div>
+    </form>
+  )
+}

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { AuthProvider } from '@/lib/auth-context'
 import { NotificationProvider } from '@/lib/notification-context'
 import '@/styles/globals.css'
@@ -6,8 +6,12 @@ import '@/styles/globals.css'
 export const metadata: Metadata = {
   title: 'JAIIB-CAIIB Exam Prep Portal',
   description: 'Prepare for JAIIB and CAIIB exams with interactive practice sets and AI-powered explanations',
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
