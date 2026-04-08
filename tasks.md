@@ -446,7 +446,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 12: Frontend - Admin Pages
 
-- [ ] 33. Implement question management page
+- [x] 33. Implement question management page
   - Create /app/(protected)/admin/questions/page.tsx
   - Build question list table with columns: question_text, paper, difficulty, status
   - Implement add question form modal
@@ -456,12 +456,12 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add pagination for question list
   - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-- [ ]* 33.1 Write unit tests for question management
+- [x]* 33.1 Write unit tests for question management
   - Test question list rendering
   - Test add/edit/delete operations
   - Test search and filtering
 
-- [ ] 34. Implement admin analytics page
+- [x] 34. Implement admin analytics page
   - Create /app/(protected)/admin/analytics/page.tsx
   - Display user engagement metrics
   - Display average scores per paper
@@ -470,7 +470,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Implement CSV export button
   - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [ ]* 34.1 Write unit tests for admin analytics
+- [x]* 34.1 Write unit tests for admin analytics
   - Test metrics display
   - Test CSV export functionality
 
