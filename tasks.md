@@ -39,7 +39,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 2: Authentication & Authorization
 
-- [ ] 5. Implement authentication Lambda function
+- [x] 5. Implement authentication Lambda function
   - Create AuthenticationHandler Lambda function
   - Implement POST /auth/login endpoint with email/password validation
   - Implement password verification using bcrypt (salt rounds: 10)
@@ -48,7 +48,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Implement error handling for invalid credentials
   - _Requirements: 1.1, 1.2, 1.7_
 
-- [ ]* 5.1 Write property test for authentication token validity
+- [x]* 5.1 Write property test for authentication token validity
   - **Property 1: Authentication Token Validity**
   - **Validates: Requirements 1.1, 1.8**
 
