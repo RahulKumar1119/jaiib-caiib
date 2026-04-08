@@ -1,0 +1,14 @@
+{
+  "name": "common-dependencies",
+  "version": "1.0.0",
+  "description": "Common dependencies layer for JAIIB-CAIIB Lambda functions",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "aws-sdk": "^2.1400.0",
+    "axios": "^1.4.0",
+    "uuid": "^9.0.0",
+    "dotenv": "^16.0.0"
+  }
+}

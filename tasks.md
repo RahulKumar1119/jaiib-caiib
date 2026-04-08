@@ -23,7 +23,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Enable encryption with AWS KMS customer-managed keys for all tables
   - _Requirements: 2.1, 8.1, 11.2, 11.3_
 
-- [ ] 3. Set up Lambda layers and shared dependencies
+- [x] 3. Set up Lambda layers and shared dependencies
   - Create Lambda layer for common dependencies (bcrypt, jsonwebtoken, aws-sdk)
   - Create Lambda layer for utility functions (encryption, validation, error handling)
   - Configure layer versioning and attachment to all Lambda functions
