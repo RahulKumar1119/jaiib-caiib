@@ -129,7 +129,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 4: Exam Engine & Practice Set Generation
 
-- [ ] 12. Implement practice set generation Lambda function
+- [x] 12. Implement practice set generation Lambda function
   - Create ExamEngineHandler Lambda function
   - Implement POST /practice-sets endpoint
   - Query active questions from Questions table filtered by paper
@@ -139,15 +139,15 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Ensure response time < 500ms
   - _Requirements: 3.1, 3.2, 3.4, 3.5, 10.2_
 
-- [ ]* 12.1 Write property test for practice set uniqueness
+- [x]* 12.1 Write property test for practice set uniqueness
   - **Property 3: Practice Set Uniqueness per Paper**
   - **Validates: Requirements 3.3**
 
-- [ ]* 12.2 Write property test for answer option shuffling
+- [x]* 12.2 Write property test for answer option shuffling
   - **Property 4: Answer Option Shuffling**
   - **Validates: Requirements 3.4**
 
-- [ ] 13. Implement MCQ content generation with Claude 4.5 Haiku
+- [x] 13. Implement MCQ content generation with Claude 4.5 Haiku
   - Create function to invoke AWS Bedrock with Claude 4.5 Haiku
   - Implement MCQ generation prompt for each JAIIB paper
   - Generate questions aligned with official JAIIB syllabus topics
@@ -156,7 +156,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Handle Bedrock failures with graceful degradation
   - _Requirements: 3.7, 6.9, 9.2_
 
-- [ ]* 13.1 Write unit tests for MCQ content generation
+- [x]* 13.1 Write unit tests for MCQ content generation
   - Test prompt construction for each paper
   - Test response parsing and validation
   - Test caching mechanism
