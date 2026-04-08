@@ -39,24 +39,26 @@ export function TrendChart({ data, isLoading = false }: TrendChartProps) {
   }
 
   return (
-    <div className="w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    <div className="w-full bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-6">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
         Score Trends (Last 30 Days)
       </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart data={data} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="date"
             stroke="#6b7280"
-            style={{ fontSize: '12px' }}
+            style={{ fontSize: '11px' }}
             tick={{ fill: '#6b7280' }}
+            interval={Math.floor(data.length / 5)}
           />
           <YAxis
             stroke="#6b7280"
-            style={{ fontSize: '12px' }}
+            style={{ fontSize: '11px' }}
             tick={{ fill: '#6b7280' }}
             domain={[0, 100]}
+            width={30}
           />
           <Tooltip
             contentStyle={{
@@ -64,18 +66,20 @@ export function TrendChart({ data, isLoading = false }: TrendChartProps) {
               border: 'none',
               borderRadius: '8px',
               color: '#fff',
+              fontSize: '12px',
+              padding: '8px',
             }}
             formatter={(value: any) => [`${Math.round(value)}%`, 'Average Score']}
             labelStyle={{ color: '#fff' }}
           />
-          <Legend wrapperStyle={{ color: '#6b7280' }} />
+          <Legend wrapperStyle={{ color: '#6b7280', fontSize: '12px' }} />
           <Line
             type="monotone"
             dataKey="average_score"
             stroke="#2563eb"
             strokeWidth={2}
-            dot={{ fill: '#2563eb', r: 4 }}
-            activeDot={{ r: 6 }}
+            dot={{ fill: '#2563eb', r: 3 }}
+            activeDot={{ r: 5 }}
             name="Average Score"
             isAnimationActive={true}
           />

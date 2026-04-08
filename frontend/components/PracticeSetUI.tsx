@@ -49,24 +49,24 @@ export function PracticeSetUI({
   return (
     <div className="space-y-6">
       {/* Progress Indicator */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6" aria-label="Practice set progress">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-              Question {currentQuestionIndex + 1} of {totalQuestions}
+              Question <span aria-live="polite">{currentQuestionIndex + 1}</span> of {totalQuestions}
             </p>
             <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
-              {answeredCount} of {totalQuestions} answered
+              <span aria-live="polite">{answeredCount}</span> of {totalQuestions} answered
             </p>
           </div>
 
           {/* Question Navigation Dots */}
-          <div className="flex gap-2 flex-wrap">
+          <nav className="flex gap-2 flex-wrap" aria-label="Question navigation">
             {practiceSet.questions.map((_, index) => (
               <button
                 key={index}
                 onClick={() => handleQuestionSelect(index)}
-                className={`w-10 h-10 rounded-full font-semibold transition-colors ${
+                className={`w-10 h-10 rounded-full font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
                   index === currentQuestionIndex
                     ? 'bg-primary-600 text-white'
                     : userAnswers[practiceSet.questions[index].question_id]
@@ -81,12 +81,12 @@ export function PracticeSetUI({
                 {index + 1}
               </button>
             ))}
-          </div>
+          </nav>
         </div>
-      </div>
+      </section>
 
       {/* Question Card */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 md:p-8">
+      <article className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 md:p-8">
         {/* Question Text */}
         <div className="mb-8">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
@@ -100,7 +100,8 @@ export function PracticeSetUI({
         </div>
 
         {/* Answer Options */}
-        <div className="space-y-3 mb-8">
+        <fieldset className="space-y-3 mb-8">
+          <legend className="sr-only">Select your answer</legend>
           {currentQuestion.order.map((optionKey) => {
             const optionText = currentQuestion.options[optionKey as keyof typeof currentQuestion.options]
             const isSelected = userAnswers[currentQuestion.question_id] === optionKey
@@ -108,7 +109,7 @@ export function PracticeSetUI({
             return (
               <label
                 key={optionKey}
-                className={`flex items-start p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                className={`flex items-start p-4 rounded-lg border-2 cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900 ${
                   isSelected
                     ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20'
                     : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 hover:border-gray-300 dark:hover:border-gray-600'
@@ -120,7 +121,7 @@ export function PracticeSetUI({
                   value={optionKey}
                   checked={isSelected}
                   onChange={() => onAnswerChange(currentQuestion.question_id, optionKey)}
-                  className="mt-1 w-4 h-4 text-primary-600 cursor-pointer"
+                  className="mt-1 w-4 h-4 text-primary-600 cursor-pointer focus:outline-none"
                   aria-label={`Option ${getOptionLabel(optionKey)}: ${optionText}`}
                 />
                 <div className="ml-4 flex-1">
@@ -132,14 +133,14 @@ export function PracticeSetUI({
               </label>
             )
           })}
-        </div>
+        </fieldset>
 
         {/* Navigation Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-between">
           <button
             onClick={handlePrevious}
             disabled={currentQuestionIndex === 0}
-            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
               currentQuestionIndex === 0
                 ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -152,7 +153,7 @@ export function PracticeSetUI({
           <button
             onClick={handleNext}
             disabled={currentQuestionIndex === totalQuestions - 1}
-            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
               currentQuestionIndex === totalQuestions - 1
                 ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -162,18 +163,18 @@ export function PracticeSetUI({
             Next →
           </button>
         </div>
-      </div>
+      </article>
 
       {/* Submit Button */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="text-sm text-gray-600 dark:text-gray-400">
             <p>
-              <span className="font-semibold">{answeredCount}</span> of{' '}
+              <span className="font-semibold" aria-live="polite">{answeredCount}</span> of{' '}
               <span className="font-semibold">{totalQuestions}</span> questions answered
             </p>
             {answeredCount < totalQuestions && (
-              <p className="text-yellow-600 dark:text-yellow-400 mt-1">
+              <p className="text-yellow-600 dark:text-yellow-400 mt-1" role="alert">
                 ⚠️ Unanswered questions will be marked as incorrect
               </p>
             )}
@@ -182,16 +183,17 @@ export function PracticeSetUI({
           <button
             onClick={onSubmit}
             disabled={isSubmitting || hasSubmitted}
-            className={`px-8 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap ${
+            className={`px-8 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
               isSubmitting || hasSubmitted
                 ? 'bg-gray-400 dark:bg-gray-600 text-gray-600 dark:text-gray-400 cursor-not-allowed'
                 : 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-700 dark:hover:bg-primary-600 text-white'
             }`}
             aria-label="Submit practice set"
+            aria-busy={isSubmitting}
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
-                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -204,7 +206,7 @@ export function PracticeSetUI({
             )}
           </button>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

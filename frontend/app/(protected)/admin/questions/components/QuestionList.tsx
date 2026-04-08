@@ -77,23 +77,70 @@ export function QuestionList({
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-      <div className="overflow-x-auto">
+      {/* Mobile Card View */}
+      <div className="block sm:hidden">
+        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+          {paginatedQuestions.map((question) => (
+            <div key={question.question_id} className="p-3 space-y-2">
+              <p className="text-xs sm:text-sm text-gray-900 dark:text-white font-medium line-clamp-2">
+                {question.question_text}
+              </p>
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                  {formatPaperName(question.paper)}
+                </span>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full font-medium ${getDifficultyBadgeColor(
+                    question.difficulty_level
+                  )}`}
+                >
+                  {question.difficulty_level.charAt(0).toUpperCase() + question.difficulty_level.slice(1)}
+                </span>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusBadgeColor(
+                    question.status
+                  )}`}
+                >
+                  {question.status.charAt(0).toUpperCase() + question.status.slice(1)}
+                </span>
+              </div>
+              <div className="flex gap-2 pt-2">
+                <button
+                  onClick={() => onEdit(question)}
+                  className="flex-1 px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-200 rounded hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors min-h-[36px] flex items-center justify-center"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => onDelete(question.question_id)}
+                  className="flex-1 px-2 py-1 text-xs bg-danger-100 dark:bg-danger-900 text-danger-700 dark:text-danger-200 rounded hover:bg-danger-200 dark:hover:bg-danger-800 transition-colors min-h-[36px] flex items-center justify-center"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
+              <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                 Question
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
+              <th className="hidden md:table-cell px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                 Paper
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
+              <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                 Difficulty
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
+              <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
+              <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                 Actions
               </th>
             </tr>
@@ -101,40 +148,40 @@ export function QuestionList({
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {paginatedQuestions.map((question) => (
               <tr key={question.question_id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                <td className="px-6 py-4 text-sm text-gray-900 dark:text-white max-w-xs truncate">
+                <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-900 dark:text-white max-w-xs truncate">
                   {question.question_text}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                <td className="hidden md:table-cell px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   {formatPaperName(question.paper)}
                 </td>
-                <td className="px-6 py-4 text-sm">
+                <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm">
                   <span
-                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getDifficultyBadgeColor(
+                    className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getDifficultyBadgeColor(
                       question.difficulty_level
                     )}`}
                   >
                     {question.difficulty_level.charAt(0).toUpperCase() + question.difficulty_level.slice(1)}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm">
+                <td className="hidden lg:table-cell px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm">
                   <span
-                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(
+                    className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(
                       question.status
                     )}`}
                   >
                     {question.status.charAt(0).toUpperCase() + question.status.slice(1)}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm space-x-2">
+                <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm space-x-1 sm:space-x-2">
                   <button
                     onClick={() => onEdit(question)}
-                    className="inline-block px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-200 rounded hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
+                    className="inline-block px-2 sm:px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-200 rounded hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors text-xs min-h-[32px] flex items-center"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => onDelete(question.question_id)}
-                    className="inline-block px-3 py-1 bg-danger-100 dark:bg-danger-900 text-danger-700 dark:text-danger-200 rounded hover:bg-danger-200 dark:hover:bg-danger-800 transition-colors"
+                    className="inline-block px-2 sm:px-3 py-1 bg-danger-100 dark:bg-danger-900 text-danger-700 dark:text-danger-200 rounded hover:bg-danger-200 dark:hover:bg-danger-800 transition-colors text-xs min-h-[32px] flex items-center"
                   >
                     Delete
                   </button>
@@ -147,24 +194,24 @@ export function QuestionList({
 
       {/* Delete Confirmation Dialog */}
       {deleteConfirmId && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 max-w-sm w-full">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
               Delete Question?
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
               Are you sure you want to delete this question? This action cannot be undone.
             </p>
-            <div className="flex gap-4 justify-end">
+            <div className="flex gap-3 sm:gap-4 justify-end">
               <button
                 onClick={onCancelDelete}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[40px] flex items-center justify-center"
               >
                 Cancel
               </button>
               <button
                 onClick={() => onConfirmDelete(deleteConfirmId)}
-                className="px-4 py-2 bg-danger-600 text-white rounded-lg hover:bg-danger-700 transition-colors"
+                className="px-3 sm:px-4 py-2 bg-danger-600 text-white rounded-lg text-xs sm:text-sm hover:bg-danger-700 transition-colors min-h-[40px] flex items-center justify-center"
               >
                 Delete
               </button>
@@ -175,38 +222,42 @@ export function QuestionList({
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex items-center justify-between">
-          <div className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="bg-gray-50 dark:bg-gray-700 px-3 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
-            {Math.min(currentPage * itemsPerPage, questions.length)} of {questions.length} results
+            {Math.min(currentPage * itemsPerPage, questions.length)} of {questions.length}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1 sm:gap-2 flex-wrap justify-center">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[36px] flex items-center justify-center"
             >
-              Previous
+              Prev
             </button>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    currentPage === page
-                      ? 'bg-primary-600 text-white'
-                      : 'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
+            <div className="flex items-center gap-1">
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                const page = i + 1
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm font-medium transition-colors min-h-[36px] flex items-center justify-center ${
+                      currentPage === page
+                        ? 'bg-primary-600 text-white'
+                        : 'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              })}
+              {totalPages > 5 && <span className="text-gray-600 dark:text-gray-400 text-xs">...</span>}
             </div>
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[36px] flex items-center justify-center"
             >
               Next
             </button>

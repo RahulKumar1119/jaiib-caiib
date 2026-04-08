@@ -39,15 +39,15 @@ export function DateRangeSelector({
   ]
 
   return (
-    <div className="flex items-center gap-4 mb-6">
-      <label htmlFor="date-range" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+      <label htmlFor="date-range" className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
         Date Range:
       </label>
       <select
         id="date-range"
         value={selectedRange}
         onChange={(e) => handleRangeChange(e.target.value)}
-        className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+        className="w-full sm:w-auto px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[44px] sm:min-h-auto"
       >
         {rangeOptions.map((option) => (
           <option key={option.value} value={option.value}>

@@ -115,18 +115,19 @@ export default function AdminAnalyticsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Analytics</h1>
-          <p className="text-gray-600 dark:text-gray-400">View platform-wide engagement and performance metrics</p>
+    <div className="space-y-4 sm:space-y-8 px-4 sm:px-0">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0">
+        <div className="space-y-1 sm:space-y-2">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Analytics</h1>
+          <p className="text-xs sm:text-base text-gray-600 dark:text-gray-400">View platform-wide engagement and performance metrics</p>
         </div>
         <AnalyticsExport onExport={handleExport} isExporting={isExporting} />
       </div>
 
       {/* Date Range Selector */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filter by Date Range</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-6">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Filter by Date Range</h2>
         <DateRangeSelector onDateRangeChange={setDateRange} defaultDays={30} />
       </div>
 
@@ -134,21 +135,21 @@ export default function AdminAnalyticsPage() {
       <AnalyticsMetrics totalLogins={analyticsData.total_logins_30d} />
 
       {/* Average Scores Per Paper */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Average Scores Per Paper</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Average Scores Per Paper</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
           {JAIIB_PAPERS.map((paper) => {
             const avgScore = analyticsData.average_scores_per_paper[paper.id] || 0
             return (
               <div
                 key={paper.id}
-                className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-lg p-6"
+                className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-lg p-3 sm:p-6 min-h-[120px] sm:min-h-[140px] flex flex-col justify-center"
               >
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{paper.shortName}</h3>
-                <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
+                <h3 className="font-semibold text-xs sm:text-base text-gray-900 dark:text-white mb-1 sm:mb-2">{paper.shortName}</h3>
+                <p className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400">
                   {formatScore(avgScore)}
                 </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Average Score</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1 sm:mt-2">Average Score</p>
               </div>
             )
           })}

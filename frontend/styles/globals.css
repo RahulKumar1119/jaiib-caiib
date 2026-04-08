@@ -39,10 +39,39 @@ body {
   background: #555;
 }
 
-/* Focus styles for accessibility */
+/* Focus styles for accessibility - WCAG AA compliant */
 :focus-visible {
-  outline: 2px solid #0ea5e9;
+  outline: 3px solid #0ea5e9;
   outline-offset: 2px;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #0ea5e9;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Form elements */
@@ -52,8 +81,74 @@ select {
   @apply rounded border border-gray-300 dark:border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white;
 }
 
+/* Ensure form elements have sufficient color contrast */
+input::placeholder,
+textarea::placeholder {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+/* Button focus styles */
 button {
   @apply transition-colors duration-200;
+}
+
+button:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+/* Link focus styles */
+a:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+/* Ensure disabled elements have sufficient contrast */
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline-width: 4px;
+  }
+
+  button:focus-visible {
+    outline-width: 4px;
+  }
+
+  a:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark mode color contrast adjustments */
+@media (prefers-color-scheme: dark) {
+  :focus-visible {
+    outline-color: #38bdf8;
+  }
+
+  button:focus-visible {
+    outline-color: #38bdf8;
+  }
+
+  a:focus-visible {
+    outline-color: #38bdf8;
+  }
 }
 
 /* Loading animation */

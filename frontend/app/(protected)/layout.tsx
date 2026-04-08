@@ -35,26 +35,44 @@ export default function ProtectedLayout({
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 shadow">
+      <nav className="bg-white dark:bg-gray-800 shadow" aria-label="Main navigation">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary-700 dark:text-primary-300">
+          <a href="/dashboard" className="text-2xl font-bold text-primary-700 dark:text-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded px-2 py-1">
             JAIIB-CAIIB Portal
-          </h1>
-          <div className="space-x-4">
-            <a href="/dashboard" className="text-gray-600 dark:text-gray-400 hover:text-primary-600">
-              Dashboard
-            </a>
-            <a href="/practice" className="text-gray-600 dark:text-gray-400 hover:text-primary-600">
-              Practice
-            </a>
-            <a href="/profile" className="text-gray-600 dark:text-gray-400 hover:text-primary-600">
-              Profile
-            </a>
-          </div>
+          </a>
+          <ul className="flex space-x-4" role="menubar">
+            <li role="none">
+              <a 
+                href="/dashboard" 
+                className="text-gray-600 dark:text-gray-400 hover:text-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded px-2 py-1 transition-colors"
+                role="menuitem"
+              >
+                Dashboard
+              </a>
+            </li>
+            <li role="none">
+              <a 
+                href="/practice" 
+                className="text-gray-600 dark:text-gray-400 hover:text-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded px-2 py-1 transition-colors"
+                role="menuitem"
+              >
+                Practice
+              </a>
+            </li>
+            <li role="none">
+              <a 
+                href="/profile" 
+                className="text-gray-600 dark:text-gray-400 hover:text-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded px-2 py-1 transition-colors"
+                role="menuitem"
+              >
+                Profile
+              </a>
+            </li>
+          </ul>
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 py-8">
+      <main id="main-content" className="container mx-auto px-4 py-8" role="main">
         {children}
       </main>
     </div>
