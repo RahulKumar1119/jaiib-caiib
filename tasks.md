@@ -476,7 +476,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 13: Frontend - Responsive Design & Accessibility
 
-- [ ] 35. Implement responsive design for all pages
+- [x] 35. Implement responsive design for all pages
   - Test and adjust layouts for desktop (1920x1080)
   - Test and adjust layouts for tablet (768x1024)
   - Test and adjust layouts for mobile (375x667)
@@ -485,11 +485,11 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test touch interactions on mobile devices
   - _Requirements: 13.1, 13.2, 13.3, 13.4_
 
-- [ ]* 35.1 Write unit tests for responsive layouts
+- [x]* 35.1 Write unit tests for responsive layouts
   - Test layout rendering at different breakpoints
   - Test touch event handling
 
-- [ ] 36. Implement accessibility features
+- [x] 36. Implement accessibility features
   - Add ARIA labels to all interactive elements
   - Implement semantic HTML structure
   - Add keyboard navigation support
@@ -498,14 +498,14 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add focus indicators for keyboard navigation
   - _Requirements: 13.7_
 
-- [ ]* 36.1 Write unit tests for accessibility
+- [x]* 36.1 Write unit tests for accessibility
   - Test ARIA labels presence
   - Test semantic HTML structure
   - Test keyboard navigation
 
 ## Phase 14: Frontend - Notifications & Error Handling
 
-- [ ] 37. Implement notification system
+- [x] 37. Implement notification system
   - Create NotificationContext for global notification state
   - Build Toast component for notifications
   - Implement high score notification (score > 80)
@@ -515,7 +515,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Ensure notifications display within 2 seconds
   - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5_
 
-- [ ]* 37.1 Write unit tests for notifications
+- [x]* 37.1 Write unit tests for notifications
   - Test notification display timing
   - Test notification content
   - Test notification dismissal
