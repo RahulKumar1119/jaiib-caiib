@@ -91,7 +91,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 3: Question Bank Management
 
-- [ ] 9. Create question management Lambda function
+- [x] 9. Create question management Lambda function
   - Create AdminHandler Lambda function
   - Implement POST /admin/questions endpoint for adding new questions
   - Implement PUT /admin/questions/{id} endpoint for updating questions
@@ -99,31 +99,31 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Implement GET /admin/questions endpoint with filtering by paper and status
   - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-- [ ]* 9.1 Write unit tests for question validation
+- [x]* 9.1 Write unit tests for question validation
   - Test question text minimum length (10 characters)
   - Test option uniqueness validation
   - Test correct answer validation (exactly one)
   - Test paper and difficulty level validation
 
-- [ ] 10. Implement question versioning and audit trail
+- [x] 10. Implement question versioning and audit trail
   - Implement version increment logic on question updates
   - Store previous versions in DynamoDB
   - Create audit log entries for all question modifications
   - Implement GET /admin/questions/{id}/versions endpoint
   - _Requirements: 8.5, 12.4_
 
-- [ ]* 10.1 Write property test for question versioning
+- [x]* 10.1 Write property test for question versioning
   - **Property 10: Question Versioning**
   - **Validates: Requirements 8.5**
 
-- [ ] 11. Implement question bank validation and JAIIB syllabus alignment
+- [x] 11. Implement question bank validation and JAIIB syllabus alignment
   - Create validation function for JAIIB syllabus topic alignment
   - Implement minimum question count validation (40 per paper)
   - Create endpoint to validate question bank completeness
   - Add syllabus_topic field validation for all four papers (IE & IFS, PPB, AFB, RBWM)
   - _Requirements: 8.7, 8.8, 3.7, 12.8_
 
-- [ ]* 11.1 Write property test for JAIIB syllabus alignment
+- [x]* 11.1 Write property test for JAIIB syllabus alignment
   - **Property 12: JAIIB Syllabus Alignment**
   - **Validates: Requirements 3.7, 8.8**
 
