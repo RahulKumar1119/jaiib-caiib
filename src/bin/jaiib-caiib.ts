@@ -54,3 +54,15 @@ new cdk.CfnOutput(stack, 'PublicSubnets', {
   description: 'Public subnet IDs',
   exportName: 'JaiibCaiibPublicSubnets',
 });
+
+new cdk.CfnOutput(stack, 'ApiGatewayEndpoint', {
+  value: stack.apiGateway.getApiEndpoint(),
+  description: 'API Gateway endpoint URL',
+  exportName: 'JaiibCaiibApiEndpoint',
+});
+
+new cdk.CfnOutput(stack, 'ApiGatewayId', {
+  value: stack.apiGateway.getApiId(),
+  description: 'API Gateway ID',
+  exportName: 'JaiibCaiibApiId',
+});
