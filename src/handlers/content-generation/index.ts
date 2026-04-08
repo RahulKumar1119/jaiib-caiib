@@ -31,7 +31,7 @@ const bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'ap
 const logger = createLogger({ service: 'ContentGenerationHandler' });
 
 // Constants
-const BEDROCK_MODEL_ID = 'anthropic.claude-3-5-haiku-20241022-v1:0';
+const BEDROCK_MODEL_ID = 'anthropic.claude-haiku-4-5-20251001-v1:0';
 const CACHE_TTL_DAYS = 30;
 const CACHE_TTL_SECONDS = CACHE_TTL_DAYS * 24 * 60 * 60;
 const MAX_RETRIES = 2;
