@@ -64,7 +64,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test session invalidation on logout
   - Test token refresh functionality
 
-- [ ] 7. Implement password reset functionality
+- [x] 7. Implement password reset functionality
   - Create POST /auth/reset-password endpoint
   - Generate single-use reset tokens with 24-hour expiration
   - Send password reset email with reset link
@@ -72,12 +72,12 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Validate new password against requirements (8+ chars, uppercase, lowercase, numeric)
   - _Requirements: 1.5, 1.6, 11.7_
 
-- [ ]* 7.1 Write unit tests for password reset
+- [x]* 7.1 Write unit tests for password reset
   - Test reset token generation and expiration
   - Test single-use token enforcement
   - Test password validation requirements
 
-- [ ] 8. Implement multi-tenant authorization layer
+- [x] 8. Implement multi-tenant authorization layer
   - Extract tenant_id from JWT token
   - Create authorization middleware to validate tenant_id
   - Implement role-based access control (officer, admin, super_admin)
@@ -85,7 +85,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Return 403 Forbidden for cross-tenant access attempts
   - _Requirements: 2.1, 2.3, 2.4_
 
-- [ ]* 8.1 Write property test for tenant data isolation
+- [x]* 8.1 Write property test for tenant data isolation
   - **Property 2: Tenant Data Isolation**
   - **Validates: Requirements 2.2, 2.3**
 
