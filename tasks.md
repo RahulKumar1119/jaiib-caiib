@@ -175,7 +175,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 5: Scoring Engine
 
-- [ ] 15. Implement scoring Lambda function
+- [x] 15. Implement scoring Lambda function
   - Create ScoringHandler Lambda function
   - Implement POST /practice-sets/{id}/submit endpoint
   - Compare user answers against correct answers from PracticeSets table
@@ -185,18 +185,18 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Ensure scoring completes within 100ms
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9_
 
-- [ ]* 15.1 Write property test for score calculation determinism
+- [x]* 15.1 Write property test for score calculation determinism
   - **Property 5: Score Calculation Determinism**
   - **Validates: Requirements 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7**
 
-- [ ] 16. Implement score storage and retrieval
+- [x] 16. Implement score storage and retrieval
   - Create GET /scores/{userId} endpoint
   - Implement score filtering by paper and date range
   - Calculate performance trends (improving, stable, declining)
   - Store score with difficulty average and performance metadata
   - _Requirements: 5.8, 7.5_
 
-- [ ]* 16.1 Write unit tests for score retrieval and filtering
+- [x]* 16.1 Write unit tests for score retrieval and filtering
   - Test score retrieval by user and paper
   - Test date range filtering
   - Test performance trend calculation
