@@ -52,14 +52,14 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - **Property 1: Authentication Token Validity**
   - **Validates: Requirements 1.1, 1.8**
 
-- [ ] 6. Implement session management and token validation
+- [x] 6. Implement session management and token validation
   - Create middleware for JWT token validation
   - Implement session expiration logic (30 minutes inactivity)
   - Create token refresh mechanism
   - Implement automatic session invalidation on logout
   - _Requirements: 1.3, 1.4, 1.8_
 
-- [ ]* 6.1 Write unit tests for session management
+- [x]* 6.1 Write unit tests for session management
   - Test token expiration after 30 minutes
   - Test session invalidation on logout
   - Test token refresh functionality
