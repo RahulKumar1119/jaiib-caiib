@@ -161,7 +161,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test response parsing and validation
   - Test caching mechanism
 
-- [ ] 14. Implement session resumption and timer management
+- [x] 14. Implement session resumption and timer management
   - Create GET /practice-sets/{id} endpoint for retrieving active sessions
   - Implement session token validation and expiration (15 minutes)
   - Store session state including user answers and time elapsed
@@ -169,7 +169,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Create session expiration cleanup with DynamoDB TTL
   - _Requirements: 4.7, 3.5_
 
-- [ ]* 14.1 Write property test for session resumption consistency
+- [x]* 14.1 Write property test for session resumption consistency
   - **Property 6: Session Resumption Consistency**
   - **Validates: Requirements 4.7**
 

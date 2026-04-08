@@ -19,7 +19,7 @@ import {
   DatabaseError,
   formatErrorResponse,
 } from '/opt/nodejs/error-handling';
-import { Logger, createLogger } from '/opt/nodejs/logging';
+import { createLogger } from '/opt/nodejs/logging';
 import {
   DYNAMODB_TABLES,
   HTTP_STATUS,
@@ -310,7 +310,45 @@ const handleGeneratePracticeSet = async (
 };
 
 /**
+ * Validates session token and checks expiration
+ * Requirements: 4.7
+ */
+const validateSessionToken = (practiceSet: any): { valid: boolean; expired: boolean } => {
+  const now = Math.floor(Date.now() / 1000);
+  const sessionExpiresAt = practiceSet.session_expires_at;
+
+  if (now > sessionExpiresAt) {
+    return { valid: false, expired: true };
+  }
+
+  return { valid: true, expired: false };
+};
+
+/**
+ * Calculates time elapsed since session start
+ * Requirements: 4.7
+ */
+const calculateTimeElapsed = (practiceSet: any): number => {
+  const now = Math.floor(Date.now() / 1000);
+  const startedAt = practiceSet.started_at;
+  return now - startedAt;
+};
+
+/**
+ * Calculates time remaining for session
+ * Requirements: 4.7
+ */
+const calculateTimeRemaining = (practiceSet: any): number => {
+  const now = Math.floor(Date.now() / 1000);
+  const sessionExpiresAt = practiceSet.session_expires_at;
+  const timeRemaining = sessionExpiresAt - now;
+  return Math.max(0, timeRemaining);
+};
+
+/**
  * GET /practice-sets/{id} endpoint handler
+ * Retrieves active session and validates session token and expiration
+ * Requirements: 4.7, 3.5
  */
 const handleGetPracticeSet = async (
   event: APIGatewayProxyEvent
@@ -351,6 +389,34 @@ const handleGetPracticeSet = async (
 
       const practiceSet = unmarshall(response.Items[0]);
 
+      // Validate session token and check expiration
+      const { valid, expired } = validateSessionToken(practiceSet);
+
+      if (expired) {
+        return {
+          statusCode: HTTP_STATUS.OK,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Content-Type-Options': 'nosniff',
+          },
+          body: JSON.stringify({
+            success: false,
+            error: 'Session has expired',
+            status: 'expired',
+          }),
+        };
+      }
+
+      if (!valid) {
+        return formatErrorResponse(
+          new ValidationError('Invalid session token')
+        );
+      }
+
+      // Calculate time elapsed and remaining
+      const timeElapsed = calculateTimeElapsed(practiceSet);
+      const timeRemaining = calculateTimeRemaining(practiceSet);
+
       return {
         statusCode: HTTP_STATUS.OK,
         headers: {
@@ -359,7 +425,17 @@ const handleGetPracticeSet = async (
         },
         body: JSON.stringify({
           success: true,
-          practice_set: practiceSet,
+          practice_set: {
+            practice_set_id: practiceSet.practice_set_id,
+            status: practiceSet.status,
+            paper: practiceSet.paper,
+            questions: practiceSet.questions,
+            user_answers: practiceSet.user_answers,
+            time_elapsed: timeElapsed,
+            time_remaining: timeRemaining,
+            session_token: practiceSet.session_token,
+            session_expires_at: practiceSet.session_expires_at,
+          },
         }),
       };
     } catch (error) {
