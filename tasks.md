@@ -415,7 +415,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 11: Frontend - Dashboard
 
-- [ ] 31. Implement main dashboard page
+- [x] 31. Implement main dashboard page
   - Create /app/(protected)/dashboard/page.tsx
   - Build Dashboard component with metric cards
   - Display average score for each JAIIB paper
@@ -425,12 +425,12 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add responsive grid layout for metric cards
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 13.1, 13.2_
 
-- [ ]* 31.1 Write unit tests for dashboard metrics display
+- [x]* 31.1 Write unit tests for dashboard metrics display
   - Test metric card rendering
   - Test paper filter functionality
   - Test responsive layout
 
-- [ ] 32. Implement dashboard charts and trends
+- [x] 32. Implement dashboard charts and trends
   - Create line chart component for score trends (last 30 days)
   - Implement chart library integration (e.g., Chart.js or Recharts)
   - Display trend data for each paper
@@ -439,7 +439,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Add pagination for recent scores
   - _Requirements: 7.3, 7.5, 7.6_
 
-- [ ]* 32.1 Write unit tests for dashboard charts
+- [x]* 32.1 Write unit tests for dashboard charts
   - Test chart rendering with sample data
   - Test date range filtering
   - Test recent scores table pagination

@@ -1,12 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDashboard } from '@/lib/hooks/useDashboard'
 import { formatScore, formatPaperName } from '@/lib/utils/formatting'
 import { JAIIB_PAPERS } from '@/lib/utils/constants'
+import { TrendChart } from './components/TrendChart'
+import { DateRangeSelector, DateRange } from './components/DateRangeSelector'
+import { RecentScoresTable } from './components/RecentScoresTable'
 
 export default function DashboardPage() {
   const { metrics, selectedPaper, isLoading, error, fetchMetrics, selectPaper } = useDashboard()
+  const [dateRange, setDateRange] = useState<DateRange | null>(null)
 
   useEffect(() => {
     fetchMetrics()
@@ -92,41 +96,17 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Trends Section */}
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Score Trends</h2>
+        <DateRangeSelector onDateRangeChange={setDateRange} defaultDays={30} />
+        <TrendChart data={metrics.trend_data} isLoading={isLoading} />
+      </div>
+
       {/* Recent Scores */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Recent Practice Sets</h2>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                  Paper
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                  Score
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {metrics.recent_scores.map((score) => (
-                <tr key={score.score_id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                    {formatPaperName(score.paper)}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">
-                    {formatScore(score.score)}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-                    {new Date(score.created_at * 1000).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <RecentScoresTable scores={metrics.recent_scores} itemsPerPage={10} />
       </div>
     </div>
   )
