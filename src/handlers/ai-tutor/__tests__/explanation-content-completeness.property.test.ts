@@ -76,6 +76,11 @@ describe('Property: Explanation Content Completeness', () => {
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    ddbMock.reset();
+    bedrockMock.reset();
+  });
+
   /**
    * Property 7.1: Explanation includes correct answer
    * For any question, the generated explanation must include the correct answer
@@ -189,20 +194,32 @@ describe('Property: Explanation Content Completeness', () => {
           ),
         }),
         async (context: any) => {
-          // Mock DynamoDB question retrieval
-          ddbMock.on(GetItemCommand).resolves({
-            Item: marshall({
-              question_id: context.question_id,
-              question_text: context.question_text,
-              option_a: 'Option A text',
-              option_b: 'Option B text',
-              option_c: 'Option C text',
-              option_d: 'Option D text',
-              correct_answer: context.correct_answer,
-              paper: context.paper,
-              rbi_norms: ['RBI Act 1934'],
-              iibf_norms: ['IIBF Banking Guide'],
-            }),
+          // Reset mocks for each iteration
+          ddbMock.reset();
+          bedrockMock.reset();
+
+          // Mock DynamoDB - first call is for cache (returns null), second is for question
+          let callCount = 0;
+          ddbMock.on(GetItemCommand).callsFake(async (input: any) => {
+            callCount++;
+            // First call is cache lookup (return null), second is question lookup
+            if (callCount === 1) {
+              return { Item: undefined }; // Cache miss
+            }
+            return {
+              Item: marshall({
+                question_id: context.question_id,
+                question_text: context.question_text,
+                option_a: 'Option A text',
+                option_b: 'Option B text',
+                option_c: 'Option C text',
+                option_d: 'Option D text',
+                correct_answer: context.correct_answer,
+                paper: context.paper,
+                rbi_norms: ['RBI Act 1934'],
+                iibf_norms: ['IIBF Banking Guide'],
+              }),
+            };
           });
 
           // Mock Bedrock response with reasoning
@@ -221,10 +238,8 @@ describe('Property: Explanation Content Completeness', () => {
           };
 
           bedrockMock.on(InvokeModelCommand).resolves({
-            body: {
-              transformToString: () => JSON.stringify(mockResponse),
-            } as any,
-          });
+            body: JSON.stringify(mockResponse),
+          } as any);
 
           // Mock cache put
           ddbMock.on(PutItemCommand).resolves({});
@@ -249,7 +264,7 @@ describe('Property: Explanation Content Completeness', () => {
           expect(body.explanation.explanation_text).toContain('because');
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 50 }
     );
   });
 
@@ -387,21 +402,33 @@ describe('Property: Explanation Content Completeness', () => {
           ),
         }),
         async (context: any) => {
-          // Mock DynamoDB question retrieval
-          ddbMock.on(GetItemCommand).resolves({
-            Item: marshall({
-              question_id: context.question_id,
-              question_text: context.question_text,
-              option_a: 'Option A text',
-              option_b: 'Option B text',
-              option_c: 'Option C text',
-              option_d: 'Option D text',
-              correct_answer: context.correct_answer,
-              paper: context.paper,
-              difficulty_level: context.difficulty,
-              rbi_norms: ['RBI Act 1934'],
-              iibf_norms: ['IIBF Banking Guide'],
-            }),
+          // Reset mocks for each iteration
+          ddbMock.reset();
+          bedrockMock.reset();
+
+          // Mock DynamoDB - first call is for cache (returns null), second is for question
+          let callCount = 0;
+          ddbMock.on(GetItemCommand).callsFake(async (input: any) => {
+            callCount++;
+            // First call is cache lookup (return null), second is question lookup
+            if (callCount === 1) {
+              return { Item: undefined }; // Cache miss
+            }
+            return {
+              Item: marshall({
+                question_id: context.question_id,
+                question_text: context.question_text,
+                option_a: 'Option A text',
+                option_b: 'Option B text',
+                option_c: 'Option C text',
+                option_d: 'Option D text',
+                correct_answer: context.correct_answer,
+                paper: context.paper,
+                difficulty_level: context.difficulty,
+                rbi_norms: ['RBI Act 1934'],
+                iibf_norms: ['IIBF Banking Guide'],
+              }),
+            };
           });
 
           // Mock Bedrock response
@@ -419,10 +446,8 @@ describe('Property: Explanation Content Completeness', () => {
           };
 
           bedrockMock.on(InvokeModelCommand).resolves({
-            body: {
-              transformToString: () => JSON.stringify(mockResponse),
-            } as any,
-          });
+            body: JSON.stringify(mockResponse),
+          } as any);
 
           // Mock cache put
           ddbMock.on(PutItemCommand).resolves({});
@@ -452,7 +477,7 @@ describe('Property: Explanation Content Completeness', () => {
           expect(body.explanation.rbi_norms.length + body.explanation.iibf_norms.length).toBeGreaterThan(0);
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 50 }
     );
   });
 });

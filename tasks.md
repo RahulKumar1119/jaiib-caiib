@@ -203,7 +203,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 6: AI Tutor & Explanations
 
-- [ ] 17. Implement AI Tutor Lambda function with Bedrock integration
+- [x] 17. Implement AI Tutor Lambda function with Bedrock integration
   - Create AITutorHandler Lambda function
   - Implement POST /explanations endpoint
   - Invoke AWS Bedrock with Claude 4.5 Haiku for explanation generation
@@ -212,23 +212,23 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Ensure response time < 3 seconds
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ]* 17.1 Write property test for explanation content completeness
+- [x]* 17.1 Write property test for explanation content completeness
   - **Property 7: Explanation Content Completeness**
   - **Validates: Requirements 6.3, 6.5**
 
-- [ ] 18. Implement explanation caching and retrieval
+- [x] 18. Implement explanation caching and retrieval
   - Create GET /explanations/{id} endpoint
   - Store explanations in ExplanationCache table with 30-day TTL
   - Implement cache hit logic to avoid redundant Bedrock calls
   - Track explanation usage count and tokens consumed
   - _Requirements: 6.6_
 
-- [ ]* 18.1 Write unit tests for explanation caching
+- [x]* 18.1 Write unit tests for explanation caching
   - Test cache hit and miss scenarios
   - Test TTL expiration
   - Test usage count tracking
 
-- [ ] 19. Implement Bedrock failure handling and graceful degradation
+- [x] 19. Implement Bedrock failure handling and graceful degradation
   - Implement retry logic (2 attempts with 2s backoff)
   - Return cached explanation on Bedrock failure
   - Display user-friendly error message: "Explanation service temporarily unavailable. Please try again later."
@@ -236,7 +236,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Implement circuit breaker pattern for repeated failures
   - _Requirements: 6.8, 9.2_
 
-- [ ]* 19.1 Write unit tests for Bedrock failure handling
+- [x]* 19.1 Write unit tests for Bedrock failure handling
   - Test retry logic and backoff
   - Test fallback to cached explanation
   - Test error message display
