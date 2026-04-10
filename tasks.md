@@ -244,7 +244,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 7: Dashboard & Analytics
 
-- [ ] 20. Implement dashboard Lambda function
+- [x] 20. Implement dashboard Lambda function
   - Create DashboardHandler Lambda function
   - Implement GET /dashboard/metrics endpoint
   - Calculate average score for each JAIIB paper (IE & IFS, PPB, AFB, RBWM)
@@ -254,18 +254,18 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Ensure response time < 1 second
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 10.3_
 
-- [ ]* 20.1 Write property test for dashboard metric accuracy
+- [x]* 20.1 Write property test for dashboard metric accuracy
   - **Property 8: Dashboard Metric Accuracy**
   - **Validates: Requirements 7.1, 7.2**
 
-- [ ] 21. Implement dashboard filtering and trend analysis
+- [x] 21. Implement dashboard filtering and trend analysis
   - Implement GET /dashboard/metrics with paper filter parameter
   - Create trend data calculation for last 30 days
   - Implement line chart data generation
   - Add performance comparison across papers
   - _Requirements: 7.3, 7.6_
 
-- [ ]* 21.1 Write unit tests for dashboard filtering and trends
+- [x]* 21.1 Write unit tests for dashboard filtering and trends
   - Test paper-specific metric filtering
   - Test trend data calculation
   - Test date range handling
