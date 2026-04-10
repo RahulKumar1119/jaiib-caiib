@@ -270,7 +270,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Test trend data calculation
   - Test date range handling
 
-- [ ] 22. Implement analytics Lambda function for admin reporting
+- [x] 22. Implement analytics Lambda function for admin reporting
   - Create analytics endpoint for admin dashboard
   - Implement user engagement metrics (logins in last 30 days)
   - Calculate average score per paper across all users
@@ -279,7 +279,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Implement CSV export functionality
   - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [ ]* 22.1 Write unit tests for analytics calculations
+- [x]* 22.1 Write unit tests for analytics calculations
   - Test user engagement metrics
   - Test average score calculations
   - Test CSV export formatting
