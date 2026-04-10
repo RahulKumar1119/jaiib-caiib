@@ -286,7 +286,7 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
 
 ## Phase 8: Audit Logging & Compliance
 
-- [ ] 23. Implement audit logging Lambda function
+- [x] 23. Implement audit logging Lambda function
   - Create AuditLogHandler Lambda function
   - Implement POST /audit-logs endpoint
   - Log user login/logout events with timestamp, user_id, tenant_id, IP address
@@ -297,19 +297,19 @@ This implementation plan breaks down the JAIIB-CAIIB Exam Prep Portal into discr
   - Store logs in CloudWatch with 90-day retention
   - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6_
 
-- [ ]* 23.1 Write unit tests for audit log creation
+- [x]* 23.1 Write unit tests for audit log creation
   - Test event logging for all event types
   - Test log field completeness
   - Test CloudWatch integration
 
-- [ ] 24. Implement audit log querying and filtering
+- [x] 24. Implement audit log querying and filtering
   - Implement GET /audit-logs endpoint with filtering
   - Support filtering by user_id, tenant_id, event_type, date range
   - Implement pagination for large result sets
   - Create audit log export functionality
   - _Requirements: 12.7_
 
-- [ ]* 24.1 Write unit tests for audit log querying
+- [x]* 24.1 Write unit tests for audit log querying
   - Test filtering by all supported criteria
   - Test pagination logic
   - Test export formatting
