@@ -6,14 +6,12 @@ backend:
         - echo "Backend is managed by AWS CDK, skipping Amplify backend build"
 frontend:
   phases:
-    install:
+    preBuild:
       commands:
-        - cd frontend
-        - npm install
+        - cd frontend && npm install
     build:
       commands:
-        - cd frontend
-        - npm run build
+        - cd frontend && npm run build
   artifacts:
     baseDirectory: frontend/dist
     files:
