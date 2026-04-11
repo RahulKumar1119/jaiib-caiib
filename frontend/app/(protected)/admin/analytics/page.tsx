@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { apiClient } from '@/lib/api-client'
-import { formatScore, formatPaperName } from '@/lib/utils/formatting'
+import { formatScore } from '@/lib/utils/formatting'
 import { JAIIB_PAPERS } from '@/lib/utils/constants'
 import { AnalyticsMetrics } from './components/AnalyticsMetrics'
 import { CompletionTrends } from './components/CompletionTrends'
@@ -73,7 +73,8 @@ export default function AdminAnalyticsPage() {
       )
       
       // Create a blob URL and trigger download
-      const url = window.URL.createObjectURL(response)
+      const blob = (response as any).data as Blob
+      const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       link.setAttribute('download', `analytics-${new Date().toISOString().split('T')[0]}.csv`)
@@ -128,7 +129,7 @@ export default function AdminAnalyticsPage() {
       {/* Date Range Selector */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-6">
         <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Filter by Date Range</h2>
-        <DateRangeSelector onDateRangeChange={setDateRange} defaultDays={30} />
+        <DateRangeSelector onDateRangeChange={setDateRange} />
       </div>
 
       {/* User Engagement Metrics */}

@@ -36,7 +36,7 @@ export default function QuestionManagementPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState<AdminQuestion | null>(null)
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
-  const { success, error: showError } = useNotification()
+  const { addNotification } = useNotification()
 
   useEffect(() => {
     fetchQuestions()
@@ -51,7 +51,7 @@ export default function QuestionManagementPage() {
     } catch (err: any) {
       const errorMessage = err.message || 'Failed to load questions'
       setError(errorMessage)
-      showError(errorMessage)
+      addNotification(errorMessage, 'error')
     } finally {
       setIsLoading(false)
     }
@@ -80,10 +80,10 @@ export default function QuestionManagementPage() {
       await apiClient.delete(`/admin/questions/${questionId}`)
       setQuestions(questions.filter((q) => q.question_id !== questionId))
       setDeleteConfirmId(null)
-      success('Question deleted successfully')
+      addNotification('Question deleted successfully', 'success')
     } catch (err: any) {
       const errorMessage = err.message || 'Failed to delete question'
-      showError(errorMessage)
+      addNotification(errorMessage, 'error')
     }
   }
 
@@ -98,7 +98,7 @@ export default function QuestionManagementPage() {
         setQuestions(
           questions.map((q) => (q.question_id === editingQuestion.question_id ? response.question : q))
         )
-        success('Question updated successfully')
+        addNotification('Question updated successfully', 'success')
       } else {
         // Create new question
         const response = await apiClient.post<{ question: AdminQuestion }>(
@@ -106,13 +106,13 @@ export default function QuestionManagementPage() {
           questionData
         )
         setQuestions([...questions, response.question])
-        success('New practice questions available!')
+        addNotification('New practice questions available!', 'success')
       }
       setIsModalOpen(false)
       setEditingQuestion(null)
     } catch (err: any) {
       const errorMessage = err.message || 'Failed to save question'
-      showError(errorMessage)
+      addNotification(errorMessage, 'error')
     }
   }
 

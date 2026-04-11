@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios'
 import { ApiError } from './types/api'
 import { parseApiError, logErrorToCloudWatch } from './utils/api-error-handler'
 
@@ -160,7 +160,7 @@ class ApiClient {
       status: appError.statusCode || 500,
       message: appError.message,
       code: appError.type,
-      details: appError.details,
+      details: appError.details ? { message: appError.details } : undefined,
     }
   }
 
@@ -194,9 +194,14 @@ class ApiClient {
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
       const logLevel = log.error ? 'error' : log.status && log.status >= 400 ? 'warn' : 'log'
-      console[logLevel as any](
-        `[API] ${log.method} ${log.url} - Status: ${log.status || 'pending'} - Duration: ${log.duration}ms`
-      )
+      const message = `[API] ${log.method} ${log.url} - Status: ${log.status || 'pending'} - Duration: ${log.duration}ms`
+      if (logLevel === 'error') {
+        console.error(message)
+      } else if (logLevel === 'warn') {
+        console.warn(message)
+      } else {
+        console.log(message)
+      }
     }
   }
 

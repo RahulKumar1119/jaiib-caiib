@@ -9,12 +9,10 @@ export interface DateRange {
 
 interface DateRangeSelectorProps {
   onDateRangeChange: (range: DateRange) => void
-  defaultDays?: number
 }
 
 export function DateRangeSelector({
   onDateRangeChange,
-  defaultDays = 30,
 }: DateRangeSelectorProps) {
   const [selectedRange, setSelectedRange] = useState<string>('30')
 

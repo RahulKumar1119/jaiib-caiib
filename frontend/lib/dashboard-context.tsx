@@ -1,7 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react'
-import { DashboardContextType, DashboardMetrics, JaiibPaper } from './types/score'
+import { DashboardContextType, DashboardMetrics } from './types/score'
+import { JaiibPaper } from './types/practice'
 import { apiClient } from './api-client'
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined)

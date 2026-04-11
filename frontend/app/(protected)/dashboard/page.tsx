@@ -3,16 +3,17 @@
 import { useEffect, useState } from 'react'
 import { useDashboard } from '@/lib/hooks/useDashboard'
 import { useNotification } from '@/lib/hooks/useNotification'
-import { formatScore, formatPaperName } from '@/lib/utils/formatting'
+import { formatScore } from '@/lib/utils/formatting'
 import { JAIIB_PAPERS } from '@/lib/utils/constants'
+import { JaiibPaper } from '@/lib/types/practice'
 import { TrendChart } from './components/TrendChart'
 import { DateRangeSelector, DateRange } from './components/DateRangeSelector'
 import { RecentScoresTable } from './components/RecentScoresTable'
 
 export default function DashboardPage() {
   const { metrics, selectedPaper, isLoading, error, fetchMetrics, selectPaper } = useDashboard()
-  const { warning } = useNotification()
-  const [dateRange, setDateRange] = useState<DateRange | null>(null)
+  const { addNotification } = useNotification()
+  const [, setDateRange] = useState<DateRange | null>(null)
   const [inactivityChecked, setInactivityChecked] = useState(false)
 
   useEffect(() => {
@@ -29,15 +30,15 @@ export default function DashboardPage() {
         const daysSinceLastPractice = (now - lastPracticeTime) / (1000 * 60 * 60 * 24)
 
         if (daysSinceLastPractice > 7) {
-          warning("It's time to practice! Start a new practice session today.")
+          addNotification("It's time to practice! Start a new practice session today.", 'warning')
         }
       } else {
         // No practice sets at all
-        warning("It's time to practice! Start a new practice session today.")
+        addNotification("It's time to practice! Start a new practice session today.", 'warning')
       }
       setInactivityChecked(true)
     }
-  }, [metrics, inactivityChecked, warning])
+  }, [metrics, inactivityChecked, addNotification])
 
   if (isLoading) {
     return (
@@ -96,7 +97,7 @@ export default function DashboardPage() {
         <h2 id="paper-performance-heading" className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Paper Performance</h2>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4" role="region" aria-label="Paper performance cards">
           {JAIIB_PAPERS.map((paper) => {
-            const stats = metrics.paper_stats[paper.id as any]
+            const stats = metrics.paper_stats[paper.id as JaiibPaper]
             if (!stats) return null
 
             return (
@@ -129,7 +130,7 @@ export default function DashboardPage() {
       <section aria-labelledby="score-trends-heading" className="space-y-3 sm:space-y-4">
         <h2 id="score-trends-heading" className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Score Trends</h2>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4">
-          <DateRangeSelector onDateRangeChange={setDateRange} defaultDays={30} />
+          <DateRangeSelector onDateRangeChange={setDateRange} />
         </div>
         <TrendChart data={metrics.trend_data} isLoading={isLoading} />
       </section>

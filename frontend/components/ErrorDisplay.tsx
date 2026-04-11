@@ -30,6 +30,7 @@ export function ErrorDisplay({
       }, 5000)
       return () => clearTimeout(timer)
     }
+    return undefined
   }, [error, onDismiss])
 
   const bgColor =

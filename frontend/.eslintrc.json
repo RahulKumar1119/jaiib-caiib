@@ -4,5 +4,6 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "@next/next/no-html-link-for-pages": "off"
-  }
+  },
+  "ignorePatterns": ["**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"]
 }

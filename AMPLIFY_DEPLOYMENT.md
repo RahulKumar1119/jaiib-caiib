@@ -1,101 +1,78 @@
-# AWS Amplify Deployment Guide - Next.js Frontend
+# AWS Amplify Frontend Deployment Guide
 
-This guide explains how to deploy the Next.js frontend using AWS Amplify, which natively supports Next.js with SSR, SSG, and ISR.
+This guide covers deploying the Next.js frontend to AWS Amplify.
 
-## Why AWS Amplify?
+## Overview
 
-- ✅ Native Next.js support (SSR, SSG, ISR)
-- ✅ Automatic CI/CD from Git
-- ✅ Built-in CDN and edge caching
-- ✅ Serverless backend integration
-- ✅ Custom domains and SSL
-- ✅ Environment variables management
-- ✅ Automatic deployments on push
+AWS Amplify provides a fully managed hosting service for modern web applications. It integrates with your GitHub repository for continuous deployment.
+
+**Key Features:**
+- Automatic builds on git push
+- Global CDN distribution
+- SSL/TLS certificates included
+- Environment-specific deployments
+- Automatic rollbacks
 
 ## Prerequisites
 
-1. AWS Account with appropriate permissions
-2. AWS CLI configured
-3. Node.js 18+ installed
-4. Git repository (GitHub, GitLab, Bitbucket, or CodeCommit)
-5. AWS Amplify CLI: `npm install -g @aws-amplify/cli`
+1. **AWS Account** with appropriate permissions
+2. **GitHub Repository** connected to Amplify
+3. **Amplify App** created in AWS Console
+4. **AWS CLI** configured with credentials
+5. **Node.js 18+** installed locally
 
-## Quick Start
+## Current Setup
 
-### Option 1: Using AWS Console (Recommended for first-time)
+- **App Name:** jaiib-caiib
+- **App ID:** d38n04eo91rm1n
+- **Region:** ap-south-1 (Mumbai)
+- **Repository:** git@github.com:RahulKumar1119/jaiib-caiib.git
+- **Branch:** main
 
-1. Go to [AWS Amplify Console](https://console.aws.amazon.com/amplify)
-2. Click "Create app"
-3. Select your Git provider (GitHub, GitLab, etc.)
-4. Authorize and select your repository
-5. Select the branch to deploy (main/production)
-6. Configure build settings:
-   - Build command: `cd frontend && npm install --legacy-peer-deps && npm run build`
-   - Start command: `npm start`
-   - Base directory: `frontend`
-7. Review and deploy
+## Deployment Process
 
-### Option 2: Using Amplify CLI
+### Option 1: Automated Deployment (Recommended)
+
+Run the automated deployment script:
 
 ```bash
-# Install Amplify CLI
-npm install -g @aws-amplify/cli
-
-# Configure AWS credentials
-amplify configure
-
-# Initialize Amplify in your project
-amplify init
-
-# When prompted:
-# - Project name: jaiib-caiib
-# - Environment: production
-# - Editor: code
-# - App type: javascript
-# - Framework: nextjs
-# - Source directory: frontend
-# - Distribution directory: frontend/.next
-
-# Deploy
-amplify push
+./scripts/deploy-amplify-frontend.sh production
 ```
 
-### Option 3: Using the deployment script
+This script will:
+1. Verify Amplify CLI is installed
+2. Build the frontend locally
+3. Prepare for deployment
+
+### Option 2: Manual Deployment
+
+#### Step 1: Build Frontend Locally
 
 ```bash
-chmod +x scripts/deploy-amplify.sh
-./scripts/deploy-amplify.sh production
+cd frontend
+npm install --legacy-peer-deps
+npm run build
+cd ..
 ```
 
-## Manual Deployment Steps
-
-### Step 1: Connect Git Repository
+#### Step 2: Push to GitHub
 
 ```bash
-# Initialize git if not already done
-git init
 git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/jaiib-caiib.git
-git push -u origin main
+git commit -m "Deploy frontend to Amplify"
+git push origin main
 ```
 
-### Step 2: Create Amplify App
+Amplify will automatically detect the push and start building.
 
-```bash
-# Using AWS CLI
-aws amplify create-app \
-  --name jaiib-caiib-frontend \
-  --region ap-south-1 \
-  --repository https://github.com/YOUR_USERNAME/jaiib-caiib.git \
-  --branch main \
-  --enable-auto-branch-creation
-```
+#### Step 3: Monitor Build
 
-### Step 3: Configure Build Settings
+Visit the Amplify Console to monitor the build:
+https://console.aws.amazon.com/amplify
 
-Create `amplify.yml` in root directory:
+## Build Configuration
+
+The build process is configured in `amplify.yml`:
 
 ```yaml
 version: 1
@@ -117,210 +94,145 @@ frontend:
       - 'frontend/node_modules/**/*'
 ```
 
-### Step 4: Deploy
-
-```bash
-# Push to trigger automatic deployment
-git push origin main
-
-# Or manually trigger deployment
-amplify publish
-```
+**Key Points:**
+- Uses `--legacy-peer-deps` to handle React 19 compatibility
+- Builds Next.js in production mode
+- Caches node_modules for faster builds
+- Serves from `.next` directory
 
 ## Environment Variables
 
-Set environment variables in Amplify Console:
+Environment variables are managed in Amplify Console:
 
-1. Go to App Settings → Environment variables
-2. Add variables:
-   - `NEXT_PUBLIC_API_URL`: Your API Gateway URL
-   - `NEXT_PUBLIC_APP_NAME`: JAIIB-CAIIB Exam Prep Portal
-   - `NEXT_PUBLIC_LOG_LEVEL`: warn (for production)
+1. Go to **App Settings** → **Environment Variables**
+2. Add variables for each environment (main, staging, etc.)
 
-Or via CLI:
+**Required Variables:**
+- `NEXT_PUBLIC_API_URL` - Backend API endpoint
+- `NEXT_PUBLIC_APP_ENV` - Environment name (production, staging, etc.)
 
-```bash
-amplify env add
-amplify env select
-amplify update env
+## Accessing Your Application
+
+Once deployed, your application will be available at:
+
+```
+https://main.[APP_ID].amplifyapp.com
 ```
 
-## Custom Domain
-
-### Using Route 53
-
-```bash
-# In Amplify Console:
-# 1. Go to Domain management
-# 2. Click "Add domain"
-# 3. Enter your domain (e.g., app.example.com)
-# 4. Select "Route 53" for DNS
-# 5. Amplify will create DNS records automatically
+For your app:
+```
+https://main.d38n04eo91rm1n.amplifyapp.com
 ```
 
-### Using External DNS Provider
+## Custom Domain (Optional)
 
-```bash
-# In Amplify Console:
-# 1. Go to Domain management
-# 2. Click "Add domain"
-# 3. Enter your domain
-# 4. Copy the CNAME record
-# 5. Add CNAME record to your DNS provider
-```
+To use a custom domain:
+
+1. Go to **App Settings** → **Domain Management**
+2. Click **Add Domain**
+3. Enter your domain name
+4. Follow the DNS configuration steps
 
 ## Monitoring & Logs
 
-### View Deployment Logs
+### View Build Logs
 
-```bash
-# Using Amplify Console
-amplify console
+1. Go to Amplify Console
+2. Select your app
+3. Click on the build in the **Deployments** tab
+4. View logs in real-time
 
-# Or via CLI
-amplify logs --follow
-```
+### CloudWatch Logs
 
-### Monitor Performance
-
-```bash
-# View CloudWatch metrics
-aws cloudwatch get-metric-statistics \
-  --namespace AWS/Amplify \
-  --metric-name Requests \
-  --start-time 2024-01-01T00:00:00Z \
-  --end-time 2024-01-02T00:00:00Z \
-  --period 3600 \
-  --statistics Sum
-```
-
-## CI/CD Pipeline
-
-Amplify automatically creates a CI/CD pipeline:
-
-1. **Push to Git** → Triggers build
-2. **Build Phase** → Installs dependencies, builds Next.js
-3. **Deploy Phase** → Deploys to Amplify hosting
-4. **Live** → App is live at `https://branch.appid.amplifyapp.com`
-
-### Branch Deployments
-
-```bash
-# Deploy feature branch
-git checkout -b feature/new-feature
-git push origin feature/new-feature
-
-# Amplify automatically creates preview deployment
-# Access at: https://feature-new-feature.appid.amplifyapp.com
-```
-
-## Rollback
-
-```bash
-# View deployment history
-amplify status
-
-# Redeploy previous version
-amplify publish --invalidateCache
-
-# Or manually select version in Console
-# App Settings → Deployments → Select version → Redeploy
-```
-
-## Performance Optimization
-
-### Enable Image Optimization
-
-Next.js Image component is automatically optimized by Amplify.
-
-### Enable Caching
-
-```yaml
-# In amplify.yml
-frontend:
-  cache:
-    paths:
-      - 'frontend/node_modules/**/*'
-      - 'frontend/.next/cache/**/*'
-```
-
-### Monitor Build Time
-
-```bash
-# View build metrics
-amplify status
-```
+Frontend logs are available in CloudWatch:
+- Log Group: `/aws/amplify/jaiib-caiib`
+- Log Stream: `main` (for main branch)
 
 ## Troubleshooting
 
-### Build Fails
+### Build Fails with "Backend not found"
 
-**Problem**: Build fails with dependency errors
+**Issue:** Amplify tries to build a backend that doesn't exist.
 
-**Solution**:
-```bash
-# Clear cache and rebuild
-amplify publish --invalidateCache
+**Solution:** 
+- We use AWS CDK for backend, not Amplify backend
+- Amplify is configured for frontend-only deployment
+- The `amplify.yml` file specifies frontend build only
 
-# Or in Console: App Settings → Build settings → Clear cache
-```
+### Build Fails with Dependency Errors
 
-### Blank Page
+**Issue:** npm install fails with peer dependency conflicts.
 
-**Problem**: Frontend shows blank page
+**Solution:**
+- The build uses `--legacy-peer-deps` flag
+- This is necessary for React 19 compatibility
+- If issues persist, check `frontend/package.json` for conflicting versions
 
-**Solution**:
-1. Check browser console for errors (F12)
-2. Verify environment variables are set
-3. Check API Gateway URL is correct
-4. View Amplify logs: `amplify logs --follow`
+### Blank Page After Deployment
 
-### Slow Performance
+**Issue:** Application shows blank page.
 
-**Problem**: App loads slowly
+**Possible Causes:**
+1. Environment variables not set
+2. API endpoint not configured
+3. Build artifacts not generated
 
-**Solution**:
-1. Enable image optimization
-2. Check CloudFront cache settings
-3. Monitor API response times
-4. Use Amplify Analytics
+**Solution:**
+1. Check environment variables in Amplify Console
+2. Verify `NEXT_PUBLIC_API_URL` is set correctly
+3. Check build logs for errors
+4. Verify `.next` directory was created during build
 
-### Environment Variables Not Working
+### Slow Initial Load
 
-**Problem**: `NEXT_PUBLIC_*` variables undefined
+**Issue:** First page load is slow.
 
-**Solution**:
-```bash
-# Rebuild to pick up new variables
-amplify publish --invalidateCache
+**Solution:**
+- This is normal for Next.js SSR applications
+- Amplify caches responses at the edge
+- Subsequent loads will be faster
+- Consider using ISR (Incremental Static Regeneration) for static pages
 
-# Or redeploy from Console
-```
+## Rollback
 
-## Cost Estimation
+To rollback to a previous deployment:
 
-### Monthly Costs (Approximate)
+1. Go to Amplify Console
+2. Select your app
+3. Go to **Deployments** tab
+4. Find the previous successful deployment
+5. Click **Redeploy**
 
-- **Amplify Hosting**: $0.015 per GB served (first 15 GB free)
-- **Build Minutes**: $0.01 per build minute (1000 minutes free)
-- **Data Transfer**: Included in hosting
+## Cost Optimization
 
-**Example**: 1000 daily users, 100 MB app, 10 builds/month
-- Hosting: ~$1.50
-- Builds: ~$0.10
-- **Total**: ~$1.60/month
+**Amplify Pricing:**
+- Build minutes: $0.01 per build minute
+- Hosting: $0.15 per GB served
+- Data transfer: Included in AWS free tier
+
+**Tips to Reduce Costs:**
+1. Use caching headers for static assets
+2. Enable compression
+3. Optimize images
+4. Use CloudFront caching
 
 ## Next Steps
 
-1. Connect your Git repository
-2. Set up custom domain
-3. Configure environment variables
-4. Enable branch deployments for staging
-5. Set up monitoring and alerts
-6. Configure auto-deployments
+1. **Deploy:** Push to GitHub to trigger Amplify build
+2. **Monitor:** Check Amplify Console for build status
+3. **Test:** Access your app at the Amplify URL
+4. **Configure:** Set up custom domain if needed
+5. **Optimize:** Monitor performance and optimize as needed
 
 ## Support
 
-- [AWS Amplify Documentation](https://docs.amplify.aws)
-- [Next.js on Amplify](https://docs.amplify.aws/nextjs)
-- [Amplify CLI Reference](https://docs.amplify.aws/cli)
+For issues or questions:
+- [AWS Amplify Documentation](https://docs.aws.amazon.com/amplify/)
+- [Amplify Console](https://console.aws.amazon.com/amplify)
+- [AWS Support](https://console.aws.amazon.com/support/)
+
+## Related Documentation
+
+- [Backend Infrastructure](./DEPLOYMENT.md)
+- [Frontend Setup](./frontend/README.md)
+- [Environment Configuration](./.env.example)

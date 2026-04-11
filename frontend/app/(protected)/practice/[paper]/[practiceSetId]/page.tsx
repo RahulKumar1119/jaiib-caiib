@@ -1,22 +1,17 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { usePracticeSet } from '@/lib/hooks/usePracticeSet'
 import { useTimer } from '@/lib/hooks/useTimer'
 import { useNotification } from '@/lib/notification-context'
 import { PracticeSetUI } from '@/components/PracticeSetUI'
 import { Timer } from '@/components/Timer'
-import { PracticeSet } from '@/lib/types/practice'
 
 export default function PracticeSessionPage() {
   const router = useRouter()
-  const params = useParams()
   const { addNotification } = useNotification()
   const { currentPracticeSet, submitPracticeSet, isLoading, error, clearError } = usePracticeSet()
-  
-  const paper = params.paper as string
-  const practiceSetId = params.practiceSetId as string
   
   const [userAnswers, setUserAnswers] = useState<Record<string, string | null>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)

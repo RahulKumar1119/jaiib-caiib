@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
 import { validatePassword } from '@/lib/utils/validation'
 
@@ -17,12 +17,10 @@ interface PasswordStrength {
   color: string
 }
 
-export default function ResetPasswordTokenPage({
-  params,
-}: {
-  params: { token: string }
-}) {
+export default function ResetPasswordTokenPage() {
   const router = useRouter()
+  const params = useParams()
+  const token = params.token as string
   const { resetPassword, isLoading, error, clearError } = useAuth()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -114,7 +112,7 @@ export default function ResetPasswordTokenPage({
     }
 
     try {
-      await resetPassword(params.token, password)
+      await resetPassword(token, password)
       setSuccess(true)
       setTimeout(() => {
         router.push('/login')
