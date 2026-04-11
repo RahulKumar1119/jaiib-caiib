@@ -44,9 +44,6 @@ export default function Home() {
               <p>Live Sessions</p>
             </div>
           </div>
-          <button className="btn-primary" onClick={() => navigate('/register')}>
-            Start Free Trial
-          </button>
         </div>
         <div className="hero-image">
           <div className="hero-graphic">📚</div>
@@ -90,72 +87,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Courses Section */}
-      <section id="courses" className="courses">
-        <h2>Our Courses</h2>
-        <div className="courses-grid">
-          <div className="course-card">
-            <div className="course-badge">Most Popular</div>
-            <h3>Foundation Batch</h3>
-            <p className="course-desc">Perfect for beginners starting from scratch</p>
-            <ul className="course-features">
-              <li>✓ 200+ Live Sessions</li>
-              <li>✓ All 4 Papers Covered</li>
-              <li>✓ 500+ Practice Questions</li>
-              <li>✓ Weekly Doubt Sessions</li>
-              <li>✓ Study Materials</li>
-            </ul>
-            <div className="course-price">
-              <span className="price">₹4,999</span>
-              <span className="original">₹9,999</span>
-            </div>
-            <button className="btn-enroll" onClick={() => navigate('/register')}>
-              Enroll Now
-            </button>
-          </div>
-
-          <div className="course-card featured">
-            <div className="course-badge">Best Value</div>
-            <h3>Rapid Revision Batch</h3>
-            <p className="course-desc">Last-minute crash course for quick prep</p>
-            <ul className="course-features">
-              <li>✓ 50+ Revision Sessions</li>
-              <li>✓ Quick Concept Review</li>
-              <li>✓ 200+ Practice Questions</li>
-              <li>✓ Daily Doubt Sessions</li>
-              <li>✓ Revision Notes</li>
-            </ul>
-            <div className="course-price">
-              <span className="price">₹2,999</span>
-              <span className="original">₹5,999</span>
-            </div>
-            <button className="btn-enroll" onClick={() => navigate('/register')}>
-              Enroll Now
-            </button>
-          </div>
-
-          <div className="course-card">
-            <div className="course-badge">Complete Package</div>
-            <h3>Mega Cracker Bundle</h3>
-            <p className="course-desc">JAIIB + CAIIB complete preparation</p>
-            <ul className="course-features">
-              <li>✓ 400+ Live Sessions</li>
-              <li>✓ Both JAIIB & CAIIB</li>
-              <li>✓ 1000+ Practice Questions</li>
-              <li>✓ Unlimited Doubt Sessions</li>
-              <li>✓ Lifetime Access</li>
-            </ul>
-            <div className="course-price">
-              <span className="price">₹7,999</span>
-              <span className="original">₹15,999</span>
-            </div>
-            <button className="btn-enroll" onClick={() => navigate('/register')}>
-              Enroll Now
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Success Stories */}
       <section id="success" className="success-stories">
         <h2>Success Stories</h2>
@@ -191,33 +122,6 @@ export default function Home() {
               <strong>Anjali Patel</strong>
               <span>Senior Executive, HDFC Bank</span>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="how-it-works">
-        <h2>How It Works</h2>
-        <div className="steps">
-          <div className="step">
-            <div className="step-number">1</div>
-            <h3>Choose Your Course</h3>
-            <p>Select the course that fits your preparation timeline and needs</p>
-          </div>
-          <div className="step">
-            <div className="step-number">2</div>
-            <h3>Enroll & Get Access</h3>
-            <p>Complete registration and get instant access to all course materials</p>
-          </div>
-          <div className="step">
-            <div className="step-number">3</div>
-            <h3>Learn & Practice</h3>
-            <p>Attend live sessions, solve practice questions, and clear doubts</p>
-          </div>
-          <div className="step">
-            <div className="step-number">4</div>
-            <h3>Ace Your Exam</h3>
-            <p>Take mock tests, get feedback, and pass your JAIIB/CAIIB exam</p>
           </div>
         </div>
       </section>

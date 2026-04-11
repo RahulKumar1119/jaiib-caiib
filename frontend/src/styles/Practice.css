@@ -1,0 +1,170 @@
+/* Practice Page Styles */
+
+.practice-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+}
+
+.practice-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.practice-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 48px;
+}
+
+.practice-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.practice-header p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Papers Grid */
+.papers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.paper-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.paper-card:hover:not(:disabled) {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.paper-card:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.paper-icon {
+  font-size: 48px;
+}
+
+.paper-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.paper-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.loading-spinner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e9ecef;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error Message */
+.error-message {
+  padding: 16px;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  color: #721c24;
+  font-weight: 500;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Footer */
+.practice-footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-outline {
+  padding: 12px 24px;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-outline:hover {
+  background: white;
+  color: #667eea;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .practice-page {
+    padding: 20px;
+  }
+
+  .practice-header {
+    margin-bottom: 32px;
+  }
+
+  .practice-header h1 {
+    font-size: 28px;
+  }
+
+  .practice-header p {
+    font-size: 16px;
+  }
+
+  .papers-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .paper-card {
+    padding: 24px 16px;
+  }
+
+  .paper-icon {
+    font-size: 40px;
+  }
+
+  .paper-card h3 {
+    font-size: 16px;
+  }
+}

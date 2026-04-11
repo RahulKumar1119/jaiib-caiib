@@ -1,37 +1,23 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import '../styles/Login.css'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const { login, isLoading, error, clearError } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-    setIsLoading(true)
+    clearError()
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Login failed')
-      }
-
-      const data = await response.json()
-      localStorage.setItem('token', data.token)
+      await login(email, password)
       navigate('/dashboard')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed')
-    } finally {
-      setIsLoading(false)
+      // Error is handled by context
     }
   }
 
@@ -50,6 +36,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
+              disabled={isLoading}
             />
           </div>
           <div className="form-group">
@@ -61,6 +48,7 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
+              disabled={isLoading}
             />
           </div>
           {error && <div className="error">{error}</div>}

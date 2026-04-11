@@ -1,0 +1,102 @@
+/* Timer Component Styles */
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.timer-icon {
+  font-size: 24px;
+}
+
+.timer-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.timer-label {
+  font-size: 12px;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timer-value {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+.timer-alert {
+  font-size: 12px;
+  animation: pulse 1s infinite;
+}
+
+/* Timer States */
+.timer-normal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.timer-warning {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  animation: warning-pulse 1s infinite;
+}
+
+.timer-critical {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  animation: critical-pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes warning-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes critical-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .timer {
+    padding: 10px 16px;
+    gap: 8px;
+  }
+
+  .timer-value {
+    font-size: 20px;
+  }
+
+  .timer-label {
+    font-size: 10px;
+  }
+}
