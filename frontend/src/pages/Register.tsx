@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { apiClient } from '../services/api'
 import '../styles/Register.css'
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    name: '',
+    full_name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -26,13 +27,33 @@ export default function Register() {
     setError('')
 
     // Validation
-    if (!formData.name.trim()) {
-      setError('Name is required')
+    if (!formData.full_name.trim()) {
+      setError('Full name is required')
+      return
+    }
+
+    if (!formData.email.trim()) {
+      setError('Email is required')
       return
     }
 
     if (formData.password.length < 8) {
       setError('Password must be at least 8 characters')
+      return
+    }
+
+    if (!/[A-Z]/.test(formData.password)) {
+      setError('Password must contain at least one uppercase letter')
+      return
+    }
+
+    if (!/[a-z]/.test(formData.password)) {
+      setError('Password must contain at least one lowercase letter')
+      return
+    }
+
+    if (!/[0-9]/.test(formData.password)) {
+      setError('Password must contain at least one number')
       return
     }
 
@@ -44,24 +65,19 @@ export default function Register() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      })
+      const response = await apiClient.register(
+        formData.full_name,
+        formData.email,
+        formData.password,
+        formData.confirmPassword
+      )
 
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.message || 'Registration failed')
+      if (response.success) {
+        // Redirect to login page after successful registration
+        navigate('/login', { state: { message: 'Registration successful! Please log in.' } })
+      } else {
+        setError(response.error || 'Registration failed')
       }
-
-      const data = await response.json()
-      localStorage.setItem('token', data.token)
-      navigate('/dashboard')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {
@@ -76,12 +92,12 @@ export default function Register() {
         <p>Join JAIIB-CAIIB Exam Prep Platform</p>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="full_name">Full Name</label>
             <input
-              id="name"
+              id="full_name"
               type="text"
-              name="name"
-              value={formData.name}
+              name="full_name"
+              value={formData.full_name}
               onChange={handleChange}
               placeholder="John Doe"
               required
@@ -112,7 +128,7 @@ export default function Register() {
               placeholder="••••••••"
               required
             />
-            <small>At least 8 characters</small>
+            <small>At least 8 characters with uppercase, lowercase, and number</small>
           </div>
 
           <div className="form-group">

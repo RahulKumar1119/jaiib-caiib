@@ -254,7 +254,7 @@ class ApiClient {
         full_name: fullName,
         email,
         password,
-        confirm_password: confirmPassword,
+        confirmPassword,
       })
 
       return response.data
