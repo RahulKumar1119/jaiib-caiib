@@ -144,6 +144,108 @@ export const login = async (event: APIGatewayProxyEvent): Promise<APIGatewayProx
 };
 
 /**
+ * POST /auth/register - User registration endpoint
+ * Creates new user account with email and password
+ */
+export const register = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  try {
+    logger.info('Registration request received', { path: event.path });
+
+    // Parse request body
+    const body = JSON.parse(event.body || '{}');
+    const { email, password, confirmPassword, full_name } = body;
+
+    // Validate input
+    if (!email || !validateEmail(email)) {
+      logger.warn('Invalid email format', { email });
+      throw new ValidationError('Invalid email format');
+    }
+
+    if (!password || !validatePassword(password)) {
+      logger.warn('Invalid password format', { email });
+      throw new ValidationError(
+        'Password must be at least 8 characters and contain uppercase, lowercase, and numeric characters'
+      );
+    }
+
+    if (password !== confirmPassword) {
+      logger.warn('Passwords do not match', { email });
+      throw new ValidationError('Passwords do not match');
+    }
+
+    if (!full_name || typeof full_name !== 'string' || full_name.trim().length === 0) {
+      logger.warn('Full name is required', { email });
+      throw new ValidationError('Full name is required');
+    }
+
+    // Check if user already exists
+    const getUserCommand = new GetItemCommand({
+      TableName: USERS_TABLE,
+      Key: marshall({ email }),
+    });
+
+    const userResponse = await dynamoDb.send(getUserCommand);
+
+    if (userResponse.Item) {
+      logger.warn('User already exists', { email });
+      throw new ValidationError('Email already registered');
+    }
+
+    // Hash password
+    const passwordHash = await hashPassword(password);
+
+    // Generate user ID
+    const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // Create new user
+    const newUser: User = {
+      user_id: userId,
+      email,
+      password_hash: passwordHash,
+      full_name: full_name.trim(),
+      tenant_id: 'default', // Default tenant for now
+      role: 'officer', // Default role
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      session_token: null,
+      session_expires_at: null,
+      reset_token: null,
+      reset_token_expires_at: null,
+      last_login: null,
+    };
+
+    const putUserCommand = new PutItemCommand({
+      TableName: USERS_TABLE,
+      Item: marshall(newUser),
+    });
+
+    await dynamoDb.send(putUserCommand);
+
+    logger.info('User registered successfully', { user_id: userId, email });
+
+    return {
+      statusCode: HTTP_STATUS.CREATED,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Content-Type-Options': 'nosniff',
+      },
+      body: JSON.stringify({
+        success: true,
+        message: 'User registered successfully',
+        user: {
+          user_id: userId,
+          email,
+          full_name,
+        },
+      }),
+    };
+  } catch (error) {
+    logger.error('Registration error', error);
+    return formatErrorResponse(error);
+  }
+};
+
+/**
  * POST /auth/logout - User logout endpoint
  * Invalidates session token
  */
@@ -411,7 +513,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
   logger.info('Authentication handler invoked', { path, method });
 
-  if (path === '/auth/login' && method === 'POST') {
+  if (path === '/auth/register' && method === 'POST') {
+    return register(event);
+  } else if (path === '/auth/login' && method === 'POST') {
     return login(event);
   } else if (path === '/auth/logout' && method === 'POST') {
     return logout(event);
