@@ -7,6 +7,7 @@
   padding: 24px;
   background: #f5f7fa;
   min-height: 100vh;
+  position: relative;
 }
 
 /* Review Mode */
@@ -184,10 +185,18 @@
   gap: 8px;
   padding: 8px 12px;
   background: #f8f9fa;
+  border: none;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
   color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.breakdown-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .breakdown-item.correct {
@@ -195,9 +204,17 @@
   color: #155724;
 }
 
+.breakdown-item.correct:hover {
+  background: #c3e6cb;
+}
+
 .breakdown-item.incorrect {
   background: #f8d7da;
   color: #721c24;
+}
+
+.breakdown-item.incorrect:hover {
+  background: #f5c6cb;
 }
 
 .breakdown-icon {
@@ -219,7 +236,8 @@
 
 .btn-primary,
 .btn-secondary,
-.btn-outline {
+.btn-outline,
+.btn-explanation {
   padding: 12px 24px;
   border: none;
   border-radius: 6px;
@@ -261,6 +279,18 @@
 
 .btn-outline:hover {
   background: #e7f3ff;
+}
+
+.btn-explanation {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.btn-explanation:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 /* Responsive */
@@ -314,4 +344,32 @@
   .review-footer button {
     width: 100%;
   }
+}
+
+/* Score Insights */
+.score-insights {
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #e7f3ff 0%, #f0e7ff 100%);
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.score-insights h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #667eea;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.insights-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.insights-content p {
+  margin: 0;
 }
