@@ -3,12 +3,12 @@
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
-    "framework": "next",
+    "framework": "react",
     "config": {
       "SourceDir": "frontend",
-      "DistributionDir": "frontend/.next",
+      "DistributionDir": "frontend/dist",
       "BuildCommand": "npm run build",
-      "StartCommand": "npm run start"
+      "StartCommand": "npm run preview"
     }
   }
 }
