@@ -14,8 +14,10 @@ frontend:
       commands:
         - cd frontend
         - npm run build
+        - mkdir -p dist
+        - cp -r public/* dist/ 2>/dev/null || true
   artifacts:
-    baseDirectory: frontend/out
+    baseDirectory: frontend/dist
     files:
       - '**/*'
   cache:
