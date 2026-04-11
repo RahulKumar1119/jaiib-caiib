@@ -8,10 +8,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd frontend && npm install
+        - bash -c "cd frontend && npm install"
     build:
       commands:
-        - cd frontend && npm run build
+        - bash -c "cd frontend && npm run build"
   artifacts:
     baseDirectory: frontend/dist
     files:
