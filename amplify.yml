@@ -1,4 +1,9 @@
 version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - echo "Backend is managed by AWS CDK, skipping Amplify backend build"
 frontend:
   phases:
     preBuild:
