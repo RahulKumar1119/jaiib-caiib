@@ -9,13 +9,11 @@ frontend:
     install:
       commands:
         - cd frontend
-        - npm install --legacy-peer-deps
+        - npm install
     build:
       commands:
         - cd frontend
         - npm run build
-        - mkdir -p dist
-        - cp -r public/* dist/ 2>/dev/null || true
   artifacts:
     baseDirectory: frontend/dist
     files:
