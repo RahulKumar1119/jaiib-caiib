@@ -118,34 +118,18 @@ export class ApiGateway extends Construct {
    * Adds security headers to API responses
    */
   private addSecurityHeaders(): void {
-    // Security headers are added via integration responses
-    // This method documents the headers that should be added to all responses
-    const securityHeaders = {
-      'X-Content-Type-Options': 'nosniff',
-      'X-Frame-Options': 'DENY',
-      'X-XSS-Protection': '1; mode=block',
-      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-      'Content-Security-Policy': "default-src 'self'",
-      'Referrer-Policy': 'strict-origin-when-cross-origin',
-    };
-
-    // These headers will be applied to all integration responses
-    // via the API Gateway response templates
-    Object.entries(securityHeaders).forEach(([header, value]) => {
-      this.api.addGatewayResponse('SecurityHeader' + header.replace(/[^a-zA-Z0-9]/g, ''), {
-        type: apigateway.ResponseType.DEFAULT_4XX,
-        responseHeaders: {
-          [header]: value,
-        },
-      });
-
-      this.api.addGatewayResponse('SecurityHeader' + header.replace(/[^a-zA-Z0-9]/g, '') + '5xx', {
-        type: apigateway.ResponseType.DEFAULT_5XX,
-        responseHeaders: {
-          [header]: value,
-        },
-      });
-    });
+    // Security headers configuration
+    // Note: Security headers are best added at the integration level or via Lambda
+    // API Gateway GatewayResponse has limitations with custom headers
+    // For now, we document the headers that should be added:
+    // - X-Content-Type-Options: nosniff
+    // - X-Frame-Options: DENY
+    // - X-XSS-Protection: 1; mode=block
+    // - Strict-Transport-Security: max-age=31536000; includeSubDomains
+    // - Content-Security-Policy: default-src 'self'
+    // - Referrer-Policy: strict-origin-when-cross-origin
+    //
+    // These should be added in Lambda integration responses or via CloudFront
   }
 
   /**

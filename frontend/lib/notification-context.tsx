@@ -125,3 +125,6 @@ export function useNotificationContext(): NotificationContextType {
   }
   return context
 }
+
+// Alias for convenience
+export const useNotification = useNotificationContext

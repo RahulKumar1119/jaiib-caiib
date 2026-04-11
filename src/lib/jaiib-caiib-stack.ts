@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { DynamoDBTables } from './dynamodb-tables';
 import { LambdaLayers } from './lambda-layers';
@@ -32,6 +33,11 @@ export class JaiibCaiibStack extends cdk.Stack {
     });
 
     this.kmsKey.addAlias('jaiib-caiib-key');
+
+    // Allow CloudWatch Logs to use the KMS key
+    this.kmsKey.grantEncryptDecrypt(
+      new iam.ServicePrincipal(`logs.${props.region}.amazonaws.com`)
+    );
 
     // Create VPC with public and private subnets
     this.vpc = new ec2.Vpc(this, 'JaiibCaiibVpc', {
@@ -82,6 +88,13 @@ export class JaiibCaiibStack extends cdk.Stack {
     cdk.Tags.of(this).add('Environment', props.environment);
     cdk.Tags.of(this).add('Application', 'jaiib-caiib-exam-prep-portal');
     cdk.Tags.of(this).add('ManagedBy', 'CDK');
+
+    // Add stack outputs
+    new cdk.CfnOutput(this, 'ApiGatewayEndpoint', {
+      description: 'API Gateway endpoint URL',
+      value: this.apiGateway.getApiEndpoint(),
+      exportName: 'JaiibCaiibApiEndpoint',
+    });
   }
 
   private getRetentionDays(days: number): logs.RetentionDays {

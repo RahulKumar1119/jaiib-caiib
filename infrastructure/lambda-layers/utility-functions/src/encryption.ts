@@ -128,3 +128,47 @@ export function verifyHash(data: string, hashValue: string): boolean {
   const computed = hash(data);
   return crypto.timingSafeEqual(Buffer.from(computed), Buffer.from(hashValue));
 }
+
+/**
+ * Alias for encrypt() - encrypts data
+ * @param plaintext - The text to encrypt
+ * @param key - The encryption key (optional, uses ENCRYPTION_KEY env var if not provided)
+ * @returns Encrypted string
+ */
+export function encryptData(plaintext: string, key?: string): string {
+  const encryptionKey = key || process.env.ENCRYPTION_KEY || 'default-encryption-key-change-in-production';
+  return encrypt(plaintext, encryptionKey);
+}
+
+/**
+ * Alias for decrypt() - decrypts data
+ * @param ciphertext - The encrypted text
+ * @param key - The encryption key (optional, uses ENCRYPTION_KEY env var if not provided)
+ * @returns Decrypted plaintext
+ */
+export function decryptData(ciphertext: string, key?: string): string {
+  const encryptionKey = key || process.env.ENCRYPTION_KEY || 'default-encryption-key-change-in-production';
+  return decrypt(ciphertext, encryptionKey);
+}
+
+/**
+ * Hashes a password using bcrypt
+ * @param password - The password to hash
+ * @param saltRounds - Number of salt rounds (default: 10)
+ * @returns Promise resolving to the hashed password
+ */
+export async function hashPassword(password: string, saltRounds: number = 10): Promise<string> {
+  const bcrypt = await import('bcrypt');
+  return bcrypt.hash(password, saltRounds);
+}
+
+/**
+ * Verifies a password against a bcrypt hash
+ * @param password - The password to verify
+ * @param hash - The bcrypt hash to verify against
+ * @returns Promise resolving to true if password matches, false otherwise
+ */
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  const bcrypt = await import('bcrypt');
+  return bcrypt.compare(password, hash);
+}

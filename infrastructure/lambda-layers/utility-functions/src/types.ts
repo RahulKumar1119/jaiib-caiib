@@ -17,6 +17,8 @@ export interface User {
   session_expires_at?: number;
   mfa_enabled: boolean;
   preferences?: Record<string, unknown>;
+  reset_token?: string;
+  reset_token_expires_at?: number;
 }
 
 export interface Question {
@@ -134,6 +136,15 @@ export interface AuthToken {
   role: string;
   iat: number;
   exp: number;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  token?: string;
+  expiresIn?: number;
+  user?: Partial<User>;
+  message?: string;
+  error?: string;
 }
 
 export interface DashboardMetrics {

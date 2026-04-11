@@ -105,6 +105,14 @@ export const DYNAMODB_TABLES = {
   EXPLANATION_CACHE: 'explanation_cache',
 } as const;
 
+// Convenience exports for commonly used table names
+export const USERS_TABLE = DYNAMODB_TABLES.USERS;
+export const QUESTIONS_TABLE = DYNAMODB_TABLES.QUESTIONS;
+export const PRACTICE_SETS_TABLE = DYNAMODB_TABLES.PRACTICE_SETS;
+export const SCORES_TABLE = DYNAMODB_TABLES.SCORES;
+export const AUDIT_LOGS_TABLE = DYNAMODB_TABLES.AUDIT_LOGS;
+export const EXPLANATION_CACHE_TABLE = DYNAMODB_TABLES.EXPLANATION_CACHE;
+
 // Session Configuration
 export const SESSION_CONFIG = {
   EXPIRATION_MINUTES: 30,
@@ -115,6 +123,10 @@ export const SESSION_CONFIG = {
   PASSWORD_RESET_EXPIRATION_SECONDS: 24 * 60 * 60,
 } as const;
 
+// Convenience exports for commonly used session values
+export const JWT_EXPIRATION_MINUTES = SESSION_CONFIG.EXPIRATION_MINUTES;
+export const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+
 // Password Configuration
 export const PASSWORD_CONFIG = {
   MIN_LENGTH: 8,
@@ -123,6 +135,9 @@ export const PASSWORD_CONFIG = {
   REQUIRE_NUMERIC: true,
   BCRYPT_SALT_ROUNDS: 10,
 } as const;
+
+// Convenience export for bcrypt salt rounds
+export const BCRYPT_SALT_ROUNDS = PASSWORD_CONFIG.BCRYPT_SALT_ROUNDS;
 
 // Scoring Configuration
 export const SCORING_CONFIG = {

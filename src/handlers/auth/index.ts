@@ -37,7 +37,7 @@ import {
 import { User, AuthResponse } from '/opt/nodejs/types';
 
 const dynamoDb = new DynamoDBClient({ region: process.env.AWS_REGION || 'ap-south-1' });
-const logger = new Logger('AuthenticationHandler');
+const logger = new Logger({ functionName: 'AuthenticationHandler' });
 
 /**
  * POST /auth/login - User login endpoint
@@ -362,7 +362,7 @@ export const verifyResetToken = async (event: APIGatewayProxyEvent): Promise<API
     }
 
     // Check token expiration
-    if (new Date(user.reset_token_expires_at) < new Date()) {
+    if (!user.reset_token_expires_at || new Date(user.reset_token_expires_at) < new Date()) {
       logger.warn('Reset token expired', { email });
       throw new AuthenticationError('Reset token has expired');
     }

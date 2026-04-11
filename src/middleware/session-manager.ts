@@ -13,7 +13,7 @@ import { USERS_TABLE, JWT_SECRET, JWT_EXPIRATION_MINUTES } from '/opt/nodejs/con
 import { User } from '/opt/nodejs/types';
 
 const dynamoDb = new DynamoDBClient({ region: process.env.AWS_REGION || 'ap-south-1' });
-const logger = new Logger('SessionManager');
+const logger = new Logger({ functionName: 'SessionManager' });
 
 export interface SessionContext {
   user_id: string;
