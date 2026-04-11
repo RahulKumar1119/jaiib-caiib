@@ -38,10 +38,11 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1>JAIIB-CAIIB Exam Prep</h1>
+        <h1>JAIIB-CAIIB</h1>
+        <p>Exam Preparation Platform</p>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email Address</label>
             <input
               id="email"
               type="email"
@@ -64,9 +65,12 @@ export default function Login() {
           </div>
           {error && <div className="error">{error}</div>}
           <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isLoading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+        <div className="login-footer">
+          Don't have an account? <a href="/register">Create one</a>
+        </div>
       </div>
     </div>
   )

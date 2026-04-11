@@ -30,18 +30,60 @@ export default function Dashboard() {
   }
 
   if (isLoading) {
-    return <div className="dashboard-container">Loading...</div>
+    return <div className="loading">Loading your dashboard</div>
   }
 
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>Dashboard</h1>
-        <button onClick={handleLogout}>Logout</button>
+        <div className="dashboard-header-actions">
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       </header>
       <main className="dashboard-content">
-        <h2>Welcome, {user?.name || 'User'}</h2>
-        <p>Your JAIIB-CAIIB exam preparation portal</p>
+        <div className="dashboard-welcome">
+          <h2>Welcome back, {user?.name || 'User'}! 👋</h2>
+          <p>Your JAIIB-CAIIB exam preparation portal. Start practicing and ace your exams.</p>
+        </div>
+
+        <div className="dashboard-grid">
+          <div className="dashboard-card">
+            <div className="dashboard-card-icon">📚</div>
+            <h3>Practice Tests</h3>
+            <p>Take full-length practice exams and track your progress with detailed analytics.</p>
+          </div>
+
+          <div className="dashboard-card">
+            <div className="dashboard-card-icon">📊</div>
+            <h3>Performance Analytics</h3>
+            <p>View your performance metrics, weak areas, and improvement suggestions.</p>
+          </div>
+
+          <div className="dashboard-card">
+            <div className="dashboard-card-icon">🎯</div>
+            <h3>Study Materials</h3>
+            <p>Access comprehensive study materials and resources for JAIIB and CAIIB exams.</p>
+          </div>
+
+          <div className="dashboard-card">
+            <div className="dashboard-card-icon">⏱️</div>
+            <h3>Time Management</h3>
+            <p>Practice with timed tests to improve your speed and accuracy during exams.</p>
+          </div>
+
+          <div className="dashboard-card">
+            <div className="dashboard-card-icon">🏆</div>
+            <h3>Leaderboard</h3>
+            <p>Compete with other candidates and see where you stand in the rankings.</p>
+          </div>
+
+          <div className="dashboard-card">
+            <div className="dashboard-card-icon">💡</div>
+            <h3>AI Tutor</h3>
+            <p>Get personalized guidance and explanations for difficult concepts from our AI tutor.</p>
+          </div>
+        </div>
       </main>
     </div>
   )

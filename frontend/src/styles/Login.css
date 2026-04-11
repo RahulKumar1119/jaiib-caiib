@@ -4,21 +4,59 @@
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
 }
 
 .login-box {
   background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-xl);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .login-box h1 {
-  margin-bottom: 2rem;
-  color: #333;
+  margin-bottom: 0.5rem;
+  color: var(--gray-900);
   text-align: center;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.login-box > p {
+  text-align: center;
+  color: var(--gray-500);
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
 }
 
 .form-group {
@@ -27,53 +65,128 @@
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
-  font-weight: 500;
+  margin-bottom: 0.625rem;
+  color: var(--gray-700);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 10px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: var(--transition);
+  background: var(--gray-50);
+  color: var(--gray-900);
+}
+
+.form-group input::placeholder {
+  color: var(--gray-400);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input:hover:not(:focus) {
+  border-color: var(--gray-300);
 }
 
 .error {
-  color: #e74c3c;
+  color: #dc2626;
   margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: #fadbd8;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  padding: 0.875rem 1rem;
+  background: #fee2e2;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  border-left: 4px solid #dc2626;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-box button {
   width: 100%;
-  padding: 0.75rem;
-  background: #667eea;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-box button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.3s ease;
+}
+
+.login-box button:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .login-box button:hover:not(:disabled) {
-  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.login-box button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .login-box button:disabled {
-  background: #ccc;
+  background: var(--gray-300);
   cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--gray-600);
+  font-size: 0.875rem;
+}
+
+.login-footer a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .login-box {
+    padding: 2rem;
+  }
+
+  .login-box h1 {
+    font-size: 1.5rem;
+  }
 }
